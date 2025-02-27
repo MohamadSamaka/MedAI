@@ -20,17 +20,17 @@ class LocationService {
     return await LocationRepository.findAll();
   }
 
-async closestLocation(locationId){
-  
-// Load distance matrix from the `/data` folder
-const distances = JSON.parse(fs.readFileSync(path.join(__dirname, "utils/distances.json"), "utf-8"));
 
 /**
  * Get sorted location IDs from closest to farthest.
  * @param {string} locationName - The name of the reference location.
  * @returns {Promise<Array>} - Sorted array of location IDs.
  */
-async function getClosestLocationIds(locationName) {
+async getClosestLocationIds(locationName) {
+// Load distance matrix from the `/data` folder
+const distances = JSON.parse(fs.readFileSync(path.join(__dirname, "utils/distances.json"), "utf-8"));
+
+
     if (!distances[locationName]) {
         throw new Error(`Location '${locationName}' not found in distance matrix.`);
     }
@@ -49,7 +49,7 @@ async function getClosestLocationIds(locationName) {
     // Convert sorted names to their IDs
     return sortedCityNames.map(name => nameToIdMap[name]);
 }
-}
+
 
   async updateLocation(id, data) {
     validateLocationUpdate(data);
