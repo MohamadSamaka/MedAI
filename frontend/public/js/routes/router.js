@@ -30,6 +30,16 @@ export const routes = [
     // ],
   },
   {
+    pattern: "/my-appointment-rodin",
+    loader: () => import("/js/views/userView/appointmentBookingRodin.js"),
+    styles: [
+      {
+        href: "/styles/about.css",
+        id: "appointmentRodin"
+      },
+    ],
+  },
+  {
     pattern: "/book-appointment",
     loader: () => import("/js/views/userView/appointmentsBooking.js"),
     // styles: [
@@ -77,9 +87,26 @@ export const routes = [
         href: "/styles/ceatingUserDashboard.css",
         id: "ceatingUserDashboard", //the name of the id doesn't matter, what's important is that it has to be unique
       },
+      // {
+      //   href: "/styles/index.css",
+      //   id: "iasdasd", //the name of the id doesn't matter, what's important is that it has to be unique
+      // },
     ],
   },
-
+  {
+    pattern: "/admin/dashboard/",
+    loader: () => import("/js/views/adminView/admin_dashboard.js"),
+    styles: [
+      {
+        href: "/styles/admin_dashboard.css",
+        id: "admin_dashboardStyles", //the name of the id doesn't matter, what's important is that it has to be unique
+      },
+      // {
+      //   href: "/styles/index.css",
+      //   id: "iasdasd", //the name of the id doesn't matter, what's important is that it has to be unique
+      // },
+    ],
+  },
   {
     pattern: "/users/:userId",
     loader: () => import("/js/views/userDashboard.js"),
