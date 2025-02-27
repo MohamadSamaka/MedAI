@@ -1,5 +1,12 @@
 import { getExpertise } from "/js/api/expertiseAPI.js";
 import { loadStyles } from "/js/helpers/stylesManager.js";
+import {getDoctorByExperties} from "“/js/api/doctorAPI.js”;"
+import { getDoctors } from "/js/api/doctorAPI.js";
+import { docsAvailbleAppointments } from "/js/api/doctorAPI.js"; //ret format [{date, time}]
+import {getClosestLocations}from "/js/api/locationAPI.js";
+import{createAppintment} from "/js/api/AppointmentAPI.js";
+import{getDoctorFutureAppointments} from "/js/api/AppointmentAPI.js";
+
 
 export function render(user) {
   return `
@@ -10,8 +17,11 @@ export function render(user) {
         <option value="">All Expertise</option>
     </select>
     
-    <label for="search">Select Closest Location:</label>
-    <input type="text" id="search" placeholder="Enter date, doctor name, or location">
+    <label for="location"> Select Closest Location:  </label>
+    <select id="location" onchange="UserlocationFunc()">
+      <option value="">Locations</option>
+    </select>
+    
     <button onclick="searchAppointments()">Search</button>
     
     <table>
@@ -33,6 +43,7 @@ export function render(user) {
 export function init(styles, params) {
   loadStyles(styles);
   const specialtyDropdown = document.getElementById("Expertise");
+  
   const userTableBody = document.getElementById("appointments-table-body");
 
   async function fetchSpecialties() {
@@ -59,7 +70,7 @@ export function init(styles, params) {
 
   }
 
-  async function UserlocationFunc(specialty = "") {
+  async function UserlocationFunc(expertise = "") {
     try {
       // i need the user get the Appointments function name
       //const response = await axiosInstance.get("/api/protected/appointments", { withCredentials: true });
@@ -68,11 +79,6 @@ export function init(styles, params) {
       lableLocation.for = "location";
       lableLocation.textContent = "Select Location:";
 
-      const UserLocationInput = document.createElement("input");
-      UserLocationInput.type = "text";
-      UserLocationInput.id = "Userlocation";
-      UserLocationInput.placeholder = "Enter your location";
-      UserLocationInput.required;
 
       const searchButton = document.createElement("button");
       searchButton.onclick =
