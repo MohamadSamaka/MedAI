@@ -1,0 +1,8 @@
+{
+    "Tel Aviv": { "Holon": 8.3, "Rishon LeZion": 12.63, "Netanya": 28.43, "Ashdod": 34.09, "Jerusalem": 53.89, "Haifa": 80.98, "Beersheba": 92.4, "Eilat": 280.7 },
+    "Jerusalem": { "Tel Aviv": 53.89, "Holon": 49.11, "Rishon LeZion": 46.01, "Netanya": 70.97, "Ashdod": 54.14, "Haifa": 115.68, "Beersheba": 69.9, "Eilat": 246.36 },
+    "Haifa": { "Tel Aviv": 80.98, "Holon": 89.11, "Rishon LeZion": 93.12, "Netanya": 52.57, "Ashdod": 114.8, "Jerusalem": 115.68, "Beersheba": 172.01, "Eilat": 358.84 },
+    "Beersheba": { "Tel Aviv": 92.4, "Holon": 84.11, "Rishon LeZion": 79.79, "Netanya": 120.03, "Ashdod": 62.52, "Jerusalem": 69.9, "Haifa": 172.01, "Eilat": 188.46 },
+    "Eilat": { "Tel Aviv": 280.7, "Holon": 272.43, "Rishon LeZion": 268.07, "Netanya": 307.81, "Ashdod": 250.5, "Jerusalem": 246.36, "Haifa": 358.84, "Beersheba": 188.46 }
+  }
+  
