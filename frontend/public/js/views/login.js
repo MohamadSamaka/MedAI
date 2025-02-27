@@ -3,7 +3,7 @@ import { login } from "../api/authAPI.js";
 
 export function render() {
   return `
-      <div class="main-container">
+      <div class="main-login-container">
       <!-- Left Side: Title and Description -->
       <div class="left-panel">
         <h1>MedicAI</h1>
@@ -33,14 +33,9 @@ export function render() {
               <label for="password">Password</label>
             </div>
             <!-- Enter Button -->
-            <button type="submit" class="enter-btn">Enter</button>
+            <button type="submit" class="enter-btn">Login</button>
             <p id="message"></p>
             <br />
-            <a href="./register.html">
-              <button type="button" class="temp-code">
-                Don't Have Account? Register
-              </button>
-            </a>
           </form>
         </div>
       </div>

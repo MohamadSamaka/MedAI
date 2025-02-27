@@ -1,4 +1,4 @@
-import { loadStyles } from "../../helpers/stylesManager.js";
+import { loadStyles } from "/helpers/stylesManager.js";
 import { generateRolesOptions } from "/helpers/rolesOptionsGenerator.js";
 import { getUsers } from "/js/api/userAPI.js";
 import { getRoles } from "/js/api/rolesAPI.js";

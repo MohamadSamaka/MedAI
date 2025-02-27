@@ -9,7 +9,7 @@ body {
   background-color: #f2f2f2;
 }
 /* Main container for two columns */
-.main-container {
+.main-login-container {
   display: flex;
   min-height: 100vh;
 }
@@ -121,7 +121,7 @@ body {
 }
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .main-container {
+  .main-login-container {
     flex-direction: column;
   }
   .left-panel,
