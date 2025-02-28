@@ -3,7 +3,7 @@ import axiosInstance from './index.js';
 
 export async function getLocations() {
   try {
-    const response = await axiosInstance.get('/admin/location', {
+    const response = await axiosInstance.get('/public/location', {
       withCredentials: true,
     });
     return response.data

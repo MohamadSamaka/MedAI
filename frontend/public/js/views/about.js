@@ -45,6 +45,6 @@ export function render() {
     `;
 }
 
-export function init(styles, params) {
+export function init(styles, subloader, params) {
   loadStyles(styles);
 }

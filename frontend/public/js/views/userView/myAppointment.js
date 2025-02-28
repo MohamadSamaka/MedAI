@@ -73,7 +73,7 @@ fetchFutureAppointments();
 
 
 
-export function init(styles, params) {
+export function init(styles, subloader, params) {
   console.log(params)
   loadStyles(styles);
 }

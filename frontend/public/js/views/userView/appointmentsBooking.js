@@ -1,12 +1,25 @@
 import { getExpertise } from "/js/api/expertiseAPI.js";
+import { generateExpertiseOptions } from "/helpers/OptionsGenerator.js";
 import { loadStyles } from "/js/helpers/stylesManager.js";
+
+
+// import { getExpertise } from "/js/api/expertiseAPI.js";
+// import { loadStyles } from "/js/helpers/stylesManager.js";
+// import {getDoctorByExperties} from "/js/api/doctorAPI.js"
+// import { getDoctors } from "/js/api/doctorAPI.js";
+// import { docsAvailbleAppointments } from "/js/api/doctorAPI.js"; //ret format [{date, time}]
+// import {getClosestLocations}from "/js/api/locationAPI.js";
+// import{createAppintment} from "/js/api/AppointmentAPI.js";
+// import{getDoctorFutureAppointments} from "/js/api/AppointmentAPI.js";
+
+let expertise = null
 
 export function render(user) {
   return `
       <h2>Appointment Booking</h2>
     
     <label for="Expertise">Select Expertise:</label>
-    <select id="Expertise" onchange="UserlocationFunc()">
+    <select id="Expertise">
         <option value="">All Expertise</option>
     </select>
     
@@ -30,30 +43,22 @@ export function render(user) {
 }
 
 
-export function init(styles, params) {
+export function init(styles, subloader, params) {
   loadStyles(styles);
   const specialtyDropdown = document.getElementById("Expertise");
   const userTableBody = document.getElementById("appointments-table-body");
-
-  async function fetchSpecialties() {
-    let expertise = null
+  specialtyDropdown.addEventListener("change", UserlocationFunc)
+  async function genereateExpertiseList() {
     try {
-      // i need the user get the specialties function name
-      //const response = await axiosInstance.get("/api/protected/expertise", { withCredentials: true });
       expertise = await getExpertise();
-      expertise.forEach(({_id, name}) => {
-        const option = document.createElement("option");
-        option.value = name;
-        option.id = _id
-        option.textContent = name;
-        specialtyDropdown.appendChild(option);
-      });
+      console.log(expertise)
+      specialtyDropdown.innerHTML = generateExpertiseOptions(expertise)
     } catch (error) {
       console.error("Error fetching Expertises:", error);
     }
     return expertise
   }
-  const experties = fetchSpecialties();
+  genereateExpertiseList();
 
   async function getDoctorByExperties(){
 
@@ -83,7 +88,7 @@ export function init(styles, params) {
     }
   }
 
-  UserlocationFunc()
+  // UserlocationFunc()
 
   async function searchLocation(userLocation, doctors) {
     const ClosetsLocation = getClosetLocation(userLocation);
@@ -101,7 +106,7 @@ export function init(styles, params) {
     });
   }
 
-  searchLocation()
+  // searchLocation()
 
   document.addEventListener("closeLocationDropdown", async function () {});
 
@@ -123,21 +128,21 @@ export function init(styles, params) {
       userTableBody.appendChild(row);
     });
   }
-  renderAppointments()
-  async function bookAppointment(appointmentId) {
-    try {
-      // i need the user book the appointment function name that
-      alert("Appointment booked successfully.");
-      fetchAppointments();
-    } catch (error) {
-      console.error("Error booking appointment:", error);
-      alert("Failed to book appointment.");
-    }
-  }
-  bookAppointment()
+  // async function bookAppointment(appointmentId) {
+  //   try {
+  //     // i need the user book the appointment function name that
+  //     // alert("Appointment booked successfully.");
+  //     fetchAppointments();
+  //   } catch (error) {
+  //     console.error("Error booking appointment:", error);
+  //     alert("Failed to book appointment.");
+  //   }
+  // }
+  // bookAppointment()
+  // renderAppointments()
+
   function filterAppointmentsBySpecialty() {
     const selectedSpecialty = specialtyDropdown.value;
-    userLocation(selectedSpecialty);
   }
 
   async function searchAppointments() {
@@ -149,7 +154,7 @@ export function init(styles, params) {
         : "none";
     });
   }
-  searchAppointments()
+  // searchAppointments()
 
   specialtyDropdown.addEventListener("change", filterAppointmentsBySpecialty);
   
@@ -162,5 +167,5 @@ export function init(styles, params) {
       patient: user.name,
     };
   }
-  createAppintment()
+  // createAppintment()
 }
