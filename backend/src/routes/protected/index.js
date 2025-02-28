@@ -12,7 +12,7 @@ protectedRouter.use("/appointment", ProtectedAppointmentRouter)
 protectedRouter.use("/expertise", ProtectedexpertiesRouter)
 protectedRouter.use("/chat", ProtectedChatbotRouter)
 protectedRouter.use("/doctor", ProtectedChatbotRouter)
-protectedRouter.use("/location",protectedLocationsRouter)
-protectedRouter=use("/medicalRecord",protectedMedicalRecordRouter)
+protectedRouter.use("/location", protectedLocationsRouter)
+protectedRouter.use("/medicalRecord", protectedMedicalRecordRouter)
 module.exports = protectedRouter;
 
