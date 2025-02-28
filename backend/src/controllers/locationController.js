@@ -42,7 +42,7 @@ class LocationController {
         }
 
         // Get sorted closest locations' IDs
-        const sortedLocationIds = await LocationRepository.getClosestLocationIds(location.locationName);
+        const sortedLocationIds = await LocationService.getClosestLocationIds(location.locationName);
 
         res.json({ sortedLocationIds });
     } catch (error) {

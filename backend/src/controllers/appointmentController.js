@@ -56,7 +56,7 @@ class AppointmentController {
 
   }
 
-  async  getDoctorAppointments(req, res, next){
+  async  getDoctorFutureAppointments(req, res, next){
     try{
     
       const doctorId = req.params.doctorId;
