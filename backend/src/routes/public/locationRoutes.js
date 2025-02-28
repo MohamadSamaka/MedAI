@@ -14,7 +14,7 @@ PublicLocationRouter.get("/:id", (req, res, next) =>
 );
 
 PublicLocationRouter.get("/", (req, res, next) => LocationController.getAll(req, res, next));
-PublicLocationRouter.get("/closest", (res, req, next) => LocationController.getClosestLocations(req, res, next));
+PublicLocationRouter.get("/closest/:locationId", (res, req, next) => LocationController.getClosestLocations(req, res, next));
 
 
 

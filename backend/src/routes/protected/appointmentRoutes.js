@@ -9,13 +9,7 @@ appointmentRouter.post("/",(req, res, next)=> appointmentController.createAppoin
 appointmentRouter.delete("/:id",(req, res, next)=> appointmentController.cancelAppointment(req, res, next));
 
 appointmentRouter.get("/:userId",(req, res, next) => appointmentController.getUserFutrueAppointments(req, res, next));//user fetching his future appointments
-appointmentRouter.get(":userId/:doctorId",(req, res, next)=> appointmentController.getDoctorFutureAppointments(req, res, next));//doctor fetching his future appointments
-
-
-
+appointmentRouter.get("/:userId/:doctorId",(req, res, next)=> appointmentController.getDoctorFutureAppointments(req, res, next));//doctor fetching his future appointments
 
 
 module.exports = appointmentRouter;
-
-
-
