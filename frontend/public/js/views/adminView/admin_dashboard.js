@@ -1,5 +1,5 @@
 import { loadStyles } from "/js/helpers/stylesManager.js";
-import { generateRolesOptions } from "/helpers/OptionsGenerator.js";
+import { generateRolesOptions } from "/js/helpers/OptionsGenerator.js";
 import { getUsers, deleteUser } from "/js/api/userAPI.js";
 import { getRoles } from "/js/api/rolesAPI.js";
 import { renderView } from "/js/routes/router.js";

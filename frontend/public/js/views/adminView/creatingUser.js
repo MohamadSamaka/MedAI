@@ -254,8 +254,8 @@ export async function init(styles, subloader, params) {
   document.querySelector("#expertise").innerHTML = expertiseOptionsHtml;
 
   //roles section
-  const rolesOptionsList = await getRoles();
-  const rolesOptionsHtml = rolesOptionsList.data
+  const rolesOptionsList = (await getRoles())?.data;
+  const rolesOptionsHtml = rolesOptionsList
     .map(({ _id, roleName }) => {
       return `<option value="${_id}">${roleName}</option>`;
     })
@@ -356,7 +356,6 @@ export async function init(styles, subloader, params) {
         console.log("Registration Data:", basicData);
         alert("Registration completed successfully!");
         await createUser(fullRegistrationData);
-        // window.location.href = "../login/login.html";
       }
 
       basicData["userData"]["MedicalInfo"] = medicalData;
@@ -427,6 +426,7 @@ export async function init(styles, subloader, params) {
 
       // Simulate backend registration for doctor
       alert("Doctor registration completed successfully!");
+      window.location.href = "/admin/dashboard";
       // window.location.href = "login";
     });
 }
