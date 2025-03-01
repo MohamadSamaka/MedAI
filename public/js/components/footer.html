@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Footer component</title>
+  </head>
+
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    rel="stylesheet"
+  />
+
+  <style>
+    .app {
+      background: #000;
+      padding: 20px 0;
+      width: 100%;
+      margin: 30px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      /* background: var(--second-color); */
+      color: white;
+    }
+
+    .app-btn {
+      margin-top: 20px;
+      padding: 20px;
+      font-size: 20px;
+      /* background: var(--third-color); */
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .app-btn:hover {
+      /* background-color: var(--first-color); */
+    }
+
+    .title-section {
+      padding: 20px 0;
+      width: 100%;
+      margin: 30px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      /* background: var(--second-color); */
+    }
+
+    .bottom-container {
+      display: flex;
+      /* align-items: center; */
+      justify-content: space-between;
+      padding: 20px 10px;
+      /* background-color: var(--second-color);
+      color: var(--fifth-color); */
+      height: 150px;
+      color: #ffffff;
+    }
+
+    /* Footer Container */
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      /* background-color: var(--second-color); */
+      color: white;
+    }
+
+    .footer-bottom-left {
+      font-size: 16px;
+    }
+
+    .footer-bottom-right {
+      display: flex;
+      gap: 20px;
+      padding: 0 50px;
+    }
+
+    .footer-bottom-right i {
+      font-size: 34px;
+      cursor: pointer;
+
+      transition: color 0.3s;
+    }
+
+    .footer-bottom-right i:hover {
+      /* color: var(--second-color); */
+    }
+
+    .footer-bottom-right .facebook:hover {
+      color: #3b5998;
+    }
+
+    .footer-bottom-right .instagram:hover {
+      color: #e1306c;
+    }
+
+    .footer-bottom-right .twitter:hover {
+      color: #00aced;
+    }
+
+    .footer {
+      background: #333333;
+    }
+  </style>
+  <body>
+    <div class="footer">
+      <div class="bottom-container">
+        <!-- Reservations Section -->
+        <div class="section">
+          <h3>Appointments</h3>
+          <p>Please call <strong>(887) 654-3210</strong>.</p>
+        </div>
+
+        <!-- Address Section -->
+        <div class="section">
+          <h3>Address</h3>
+          <p>4321 Israel St,</p>
+          <p>Haifa, PR 12345</p>
+        </div>
+
+        <!-- Opening Hours Section -->
+        <div class="section">
+          <h3>Opening Hours</h3>
+          <p>Fri-Sat: 5:00 PM - 11:00 PM</p>
+          <p>Sun-Thurs: 11:00 AM - 11:00 PM</p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer-bottom">
+        <!-- Left side: Text and Reserved -->
+        <div class="footer-bottom-left">
+          <p>&copy; 2025 MedicAI. All rights reserved.</p>
+        </div>
+
+        <!-- Right side: Social Media Icons -->
+        <div class="footer-bottom-right">
+          <i class="fab fa-facebook facebook"></i>
+          <i class="fab fa-instagram instagram"></i>
+          <i class="fab fa-twitter twitter"></i>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

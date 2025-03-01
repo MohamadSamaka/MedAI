@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>main-page section 1</title>
+  </head>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .section-section1 {
+      display: flex;
+
+      justify-content: center;
+
+      padding: 0px 20px;
+      width: 100%;
+      max-width: 1400px;
+    }
+
+    /* LEFT COLUMN */
+    .section1-container-left {
+      flex: 6;
+      /* background: #000; */
+      color: #fff;
+      /* padding: 20px; */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .rounded-container-ad {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      padding: 15px;
+      /* margin-top: 10px; */
+      color: #000;
+      min-height: 390px;
+    }
+
+    /* MIDDLE COLUMN */
+    .section1-container-middle {
+      flex: 10;
+      /* background: #f1f1f1; */
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .section1-container-middle h2 {
+      color: #ffffff;
+    }
+
+    .middle-items {
+      width: 80%;
+      /* background: #ffffff; */
+
+      flex-wrap: wrap;
+      gap: 20px;
+      border-radius: 10px;
+      display: grid;
+      /* padding: 20px; */
+      grid-template-columns: auto auto auto;
+      gap: 10px; /* space between grid items */
+      min-height: 420px;
+    }
+
+    .middle-item {
+      display: flex;
+      align-items: center;
+      padding-top: 20px;
+      flex-direction: column;
+      background: #ffffff;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 15px;
+      min-height: 100px;
+    }
+
+    .logo-circle {
+      background: rgb(141, 228, 255);
+      border-radius: 50%;
+      width: 90px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 5px auto;
+    }
+
+    /* RIGHT COLUMN */
+    .section1-container-right {
+      flex: 5;
+      display: flex;
+      /* justify-content: center; */
+      align-items: center;
+      flex-direction: column;
+      color: #fff;
+    }
+
+    .login-container {
+      background: #fff;
+      color: #000;
+      padding: 20px;
+      border-radius: 10px;
+      height: 390px;
+      width: 270px;
+      transition: background 0.3s;
+    }
+
+    .login-container:hover {
+      background: #a0d4d6;
+    }
+
+    .login-container img {
+      transition: opacity 0.3s ease;
+    }
+
+    .login-container:hover img {
+      opacity: 0.5; /* Adjust opacity as needed */
+    }
+
+    .login-container h2 {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    .input-info {
+      width: 100%;
+    }
+
+    .underline-input {
+      /* Remove default borders */
+      border: none;
+      /* Add an underline */
+      border-bottom: 1px solid #ccc;
+      /* Make sure it takes full available width */
+      width: 100%;
+      /* Optional: Add padding to prevent text touching the border */
+      padding: 5px 0;
+      /* Remove default focus outline, and optionally add a custom focus style */
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    /* Optional: Change underline color when the input is focused */
+    .floating-container .underline-input:focus {
+      border-bottom-color: #3a73b4;
+    }
+
+    /* Style the input */
+    .floating-container .underline-input {
+      width: 100%;
+      padding: 12px 5px;
+      font-size: 16px;
+      border: none; /* Remove full border */
+      border-bottom: 1px solid #ccc; /* Underline effect */
+      outline: none;
+    }
+
+    /* Style the label so it sits over the input text */
+    .floating-container label {
+      position: absolute;
+      top: 12px;
+      left: 5px;
+      font-size: 16px;
+      color: #aaa;
+      pointer-events: none; /* Allows clicks to focus on the input */
+      transition: all 0.3s;
+    }
+
+    .form-group {
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .form-group label {
+      position: absolute;
+      top: 10px;
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    /* When the input is focused or contains text, float the label up */
+    .floating-container .underline-input:focus + label,
+    .floating-container .underline-input:not(:placeholder-shown) + label {
+      top: -10px;
+      font-size: 12px;
+      color: #3a73b4;
+    }
+
+    .enter-btn {
+      background: #058625;
+
+      border-radius: 20px;
+
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: none;
+
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    .enter-btn:focus {
+      background: #045a19;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+
+    .form-group small {
+      display: block;
+      text-align: left;
+      margin-top: 3px;
+      color: #555;
+      font-size: 12px;
+    }
+
+    .notice {
+      text-align: center;
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
+    .temp-code {
+      background: #195daa;
+      transition: all 0.3s;
+      border-radius: 20px;
+
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: none;
+
+      color: #fff;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .temp-code:hover {
+      background: rgb(31, 61, 143);
+    }
+    .rounded-container-ad span {
+      color: #00c2c9;
+      font-weight: bold;
+    }
+
+    .icon-middle {
+      font-size: 50px;
+    }
+
+    .personal-image {
+      height: 360px;
+      /* width: 270px; */
+      width: 100%;
+      object-fit: cover;
+      /* border-radius: 10px; */
+    }
+
+    @media screen and (max-width: 1000px) {
+      .section-section1 {
+        width: 95%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-direction: column;
+      }
+
+      .section1-container-middle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0px;
+        flex-direction: column;
+      }
+
+      .middle-items {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        border-radius: 10px;
+      }
+    }
+  </style>
+  <body>
+    <div class="section-section1">
+      <!-- LEFT COLUMN -->
+      <div class="section1-container-left">
+        <h2>Always with you</h2>
+        <div class="rounded-container-ad">
+          <p>
+            <span>The AI bot</span>, an <span>expert in medical advice</span>,
+            serves as a highly efficient and accessible healthcare companion.
+            Patients use it for <span> instant, reliable </span> guidance on
+            symptoms, treatment options, and preventive care, making it a
+            trusted resource for those seeking prompt answers.
+          </p>
+          <p>
+            This instant access to expert insights empowers patients to make
+            <span> informed decisions</span> and take proactive steps in
+            managing their health. <span> 24/7 availability</span> , ensuring
+            that patients can seek help whenever needed, without the need for
+            appointments or office visits. Ultimately, it offers convenience,
+            <span>speed, and accuracy</span>, making healthcare more accessible
+            to <span>everyone.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- MIDDLE COLUMN -->
+      <div class="section1-container-middle">
+        <h2>For you around the clock 24/7</h2>
+        <div class="middle-items">
+          <!-- Each item is one of the 6 sections -->
+          <div class="middle-item">
+            <div class="logo-circle">
+              <i
+                class="fa-solid fa-virus icon-middle"
+                style="color: #285c42"
+              ></i>
+            </div>
+            <p>Against the flu</p>
+          </div>
+          <div class="middle-item">
+            <div class="logo-circle">
+              <i
+                class="fa-solid fa-person icon-middle"
+                style="color: #c5a54c"
+              ></i>
+            </div>
+            <p>Mental Health Center</p>
+          </div>
+          <div class="middle-item">
+            <div class="logo-circle">
+              <i
+                class="fa-solid fa-file-waveform icon-middle"
+                style="color: #5b5dd3"
+              ></i>
+            </div>
+            <p>Medications and Prescriptions</p>
+          </div>
+          <div class="middle-item">
+            <div class="logo-circle">
+              <i
+                class="fa-solid fa-user-doctor icon-middle"
+                style="color: #a631aa"
+              ></i>
+            </div>
+            <p>Direct Access: Doctors Online</p>
+          </div>
+          <div class="middle-item">
+            <div class="logo-circle">
+              <i
+                class="fa-solid fa-house-chimney-user icon-middle"
+                style="color: #b83455"
+              ></i>
+            </div>
+            <p>Home Ultrasound</p>
+          </div>
+          <div class="middle-item">
+            <div class="logo-circle">
+              <i
+                class="fa-solid fa-hand-holding-droplet icon-middle"
+                style="color: #1ea1b8"
+              ></i>
+            </div>
+            <p>Rehabilitation</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="section1-container-right">
+        <h2>Enter your Personal Area</h2>
+        <a href="/"
+          ><div class="login-container">
+            <img src="./assets/imgs/p4.png" alt="" / class="personal-image">
+          </div>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

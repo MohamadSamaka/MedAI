@@ -1,0 +1,744 @@
+/****************** SECTION 1 ******************/
+.section-section1 {
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+
+    /* background: linear-gradient(
+      0deg,
+      rgb(221, 196, 115),
+      rgb(46, 187, 168) 20%,
+      rgb(11, 96, 117)
+    /* ); */
+    padding: 0px 20px;
+    width: 100%;
+    max-width: 1400px;
+  }
+
+  /* LEFT COLUMN */
+  .section1-container-left {
+    flex: 6;
+    /* background: #000; */
+    color: #fff;
+    /* padding: 20px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rounded-container-ad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 15px;
+    /* margin-top: 10px; */
+    color: #000;
+    min-height: 390px;
+  }
+
+  /* MIDDLE COLUMN */
+  .section1-container-middle {
+    flex: 10;
+    /* background: #f1f1f1; */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .section1-container-middle h2 {
+    color: #ffffff;
+  }
+
+  .middle-items {
+    width: 80%;
+    /* background: #ffffff; */
+
+    flex-wrap: wrap;
+    gap: 20px;
+    border-radius: 10px;
+    display: grid;
+    /* padding: 20px; */
+    grid-template-columns: auto auto auto;
+    gap: 10px; /* space between grid items */
+    min-height: 420px;
+  }
+
+  .middle-item {
+    display: flex;
+    align-items: center;
+    padding-top: 20px;
+    flex-direction: column;
+    background: #ffffff;
+    width: 130px;
+    text-align: center;
+    margin-bottom: 15px;
+    min-height: 100px;
+  }
+
+  .logo-circle {
+    background: rgb(141, 228, 255);
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 5px auto;
+  }
+
+  /* RIGHT COLUMN */
+  .section1-container-right {
+    flex: 5;
+    /* background: #b90a0a; */
+    /* padding: 20px; */
+    color: #fff;
+  }
+
+  .login-container {
+    background: #fff;
+    color: #000;
+    padding: 20px;
+    border-radius: 10px;
+    height: 390px;
+    width: 270px;
+    transition: background 0.3s;
+  }
+
+  .login-container:hover {
+    background: #a0d4d6;
+  }
+
+  .login-container img {
+    transition: opacity 0.3s ease;
+  }
+
+  .login-container:hover img {
+    opacity: 0.5; /* Adjust opacity as needed */
+  }
+
+  .login-container h2 {
+    margin-top: 0;
+    text-align: center;
+  }
+
+  .input-info {
+    width: 100%;
+  }
+
+  .underline-input {
+    /* Remove default borders */
+    border: none;
+    /* Add an underline */
+    border-bottom: 1px solid #ccc;
+    /* Make sure it takes full available width */
+    width: 100%;
+    /* Optional: Add padding to prevent text touching the border */
+    padding: 5px 0;
+    /* Remove default focus outline, and optionally add a custom focus style */
+    outline: none;
+    transition: all 0.3s;
+  }
+
+  /* Optional: Change underline color when the input is focused */
+  .floating-container .underline-input:focus {
+    border-bottom-color: #3a73b4;
+  }
+
+  /* Style the input */
+  .floating-container .underline-input {
+    width: 100%;
+    padding: 12px 5px;
+    font-size: 16px;
+    border: none; /* Remove full border */
+    border-bottom: 1px solid #ccc; /* Underline effect */
+    outline: none;
+  }
+
+  /* Style the label so it sits over the input text */
+  .floating-container label {
+    position: absolute;
+    top: 12px;
+    left: 5px;
+    font-size: 16px;
+    color: #aaa;
+    pointer-events: none; /* Allows clicks to focus on the input */
+    transition: all 0.3s;
+  }
+
+  .form-group {
+    margin-bottom: 30px;
+    position: relative;
+  }
+
+  .form-group label {
+    position: absolute;
+    top: 10px;
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  /* When the input is focused or contains text, float the label up */
+  .floating-container .underline-input:focus + label,
+  .floating-container .underline-input:not(:placeholder-shown) + label {
+    top: -10px;
+    font-size: 12px;
+    color: #3a73b4;
+  }
+
+  .enter-btn {
+    background: #058625;
+
+    border-radius: 20px;
+
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s;
+  }
+
+  .enter-btn:focus {
+    background: #045a19;
+  }
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+  }
+
+  .form-group small {
+    display: block;
+    text-align: left;
+    margin-top: 3px;
+    color: #555;
+    font-size: 12px;
+  }
+
+  .notice {
+    text-align: center;
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+
+  .temp-code {
+    background: #195daa;
+    transition: all 0.3s;
+    border-radius: 20px;
+
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .temp-code:hover {
+    background: rgb(31, 61, 143);
+  }
+  .rounded-container-ad span {
+    color: #00c2c9;
+    font-weight: bold;
+  }
+
+  .icon-middle {
+    font-size: 50px;
+  }
+
+
+/****************** SECTION 2 ******************/
+.featured-section {
+    padding: 10px;
+    background-color: #ffffff;
+    width: 100%;
+    margin: 50px 0px;
+  }
+
+  /* Main Section Title */
+  .featured-section .section-title {
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  /* Row Container for Items */
+  .featured-section .items-row {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    /* gap: 20px; */
+  }
+
+  /* Individual Item Styling */
+  .featured-section .item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    text-align: center;
+    flex: 1;
+    /* Adjust these values as needed to control item width */
+    min-width: 150px;
+    max-width: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Small Title for each Item */
+  .featured-section .item-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #3a3a3a;
+  }
+
+  /* Picture inside each Item */
+  .featured-section .item-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px auto;
+    border-radius: 4px;
+  }
+
+  /* Very Short Description for each Item */
+  .featured-section .item-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+  }
+
+/****************** SECTION 3 ******************/
+.section-section3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 300px;
+    background: #ffffff;
+  }
+
+  .s3-main-img {
+    height: 200px;
+    background: #e7e7e7;
+    width: 500px;
+    margin: 50px 20px;
+    border-radius: 2px;
+  }
+/****************** SECTION 4 ******************/
+.s4-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 50px 0;
+    text-align: center;
+    font-family: sans-serif;
+    background: linear-gradient(
+        rgba(6, 108, 148, 0.8),
+        rgba(8, 110, 141, 0.8)
+      ),
+      url("../../public/imgs/img-s4.jpg");
+    background-size: cover;
+    background-position: center;
+  }
+  /* Title styling */
+  .s4-title {
+    font-size: 2em;
+    margin: 20px 0;
+    color: white;
+  }
+  /* Row layout for three sections */
+  .s4-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  /* Each section */
+  .s4-section {
+    width: 300px;
+    height: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    position: relative;
+    overflow: hidden;
+    /* cursor: pointer; */
+    box-sizing: border-box;
+    margin: 20px 10px;
+    padding: 90px;
+    transition: all 0.5s;
+  }
+  /* Icon styling (using placeholder text; replace with actual images or icon fonts as needed) */
+  .s4-icon {
+    font-size: 3em;
+  }
+  /* Description styling */
+  .s4-description {
+    margin-top: 10px;
+    font-size: 40px;
+    color: #ffffff;
+  }
+  /* Button styling */
+  .s4-enter-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: 1px solid white;
+    background-color: #278794;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: all 0.5s;
+  }
+  .s4-enter-button:hover {
+    background-color: #ffffff;
+    color: #007bff;
+  }
+
+  .s4 {
+    font-size: 50px;
+  }
+
+/****************** SECTION 5 ******************/
+.s5-container2 {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    
+  }
+  /* Each section */
+  .s5-section2 {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-sizing: border-box;
+    min-height: 200px;
+  }
+  /* For sections in the first row, the image is on the left */
+  .s5-first-row .s5-img-side {
+    order: 1;
+    flex: 1 1 50%;
+  }
+  .s5-first-row .s5-text-side {
+    order: 2;
+    flex: 1 1 50%;
+    padding-left: 20px;
+  }
+  /* For sections in the second row, the image is on the right */
+  .s5-second-row .s5-text-side {
+    order: 1;
+    flex: 1 1 50%;
+    padding-right: 20px;
+  }
+  .s5-second-row .s5-img-side {
+    order: 2;
+    flex: 1 1 50%;
+  }
+  /* Image styling */
+  .s5-img-side img {
+    width: 200px;
+    height: 200px;
+    display: block;
+    object-fit: cover;
+  }
+  /* Text content styling */
+  .s5-small-title {
+    font-size: 0.9em;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    color: #555;
+  }
+  .s5-large-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #222;
+  }
+  .s5-description {
+    font-size: 1em;
+    line-height: 1.4em;
+    color: #333;
+  }
+/****************** SECTION 6 ******************/
+.s6-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 50px 0;
+    text-align: center;
+    font-family: sans-serif;
+    background: #fff;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Row layout for sections */
+  .s6-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* Each section */
+  .s6-section {
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 270px;
+    height: 270px;
+    margin: 20px 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all 0.5s;
+    background: transparent;
+  }
+
+  /* Background circle added via ::before */
+  .s6-section::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    background-color: #1d92c0;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    transition: opacity 0.5s ease; /* Smooth fade-out transition */
+  }
+
+  /* Hide the circle on hover */
+  .s6-section:hover::before {
+    opacity: 0;
+  }
+
+  /* Ensure inner content is on top of the circle */
+  .s6-default-content,
+  .s6-hover-content {
+    position: relative;
+    z-index: 1;
+    transition: opacity 0.5s ease;
+  }
+
+  .s6-section:hover {
+    border: 1px solid rgba(8, 110, 141, 0.85);
+  }
+
+  /* Hover content is absolutely positioned on top */
+  .s6-hover-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(8, 110, 141, 0.85);
+    opacity: 0;
+  }
+
+  /* On hover, fade out the default content */
+  .s6-section:hover .s6-default-content {
+    opacity: 0;
+  }
+
+  /* On hover, fade in the hover content */
+  .s6-section:hover .s6-hover-content {
+    border: none;
+    outline: none;
+    opacity: 1;
+  }
+
+  /* Icon styling */
+  .s6-icon {
+    font-size: 3em;
+  }
+
+  /* Description styling */
+  .s6-description {
+    margin-top: 10px;
+    font-size: 1em;
+  }
+
+  /* Button styling */
+  .s6-enter-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: 1px solid white;
+    background-color: #278794;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 30px;
+    transition: all 0.5s;
+  }
+  .s6-enter-button:hover {
+    background-color: #ffffff;
+    color: #007bff;
+  }
+
+  .s6 {
+    font-size: 50px;
+  }
+
+  .s6-title h1 {
+    font-size: 50px;
+    margin: 20px 0;
+    color: rgb(14, 99, 155);
+  }
+
+  .s6-title h2 {
+    font-size: 20px;
+    margin: 20px 0;
+    color: rgb(14, 99, 155);
+  }
+/****************** SECTION 7 ******************/
+
+.s7-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 50px 0;
+    text-align: center;
+    font-family: sans-serif;
+    background: #db7e31;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Row layout for sections */
+  .s7-row,
+  .s7-row-2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  /* Each section */
+  .s7-section {
+    color: rgb(0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 191px;
+    height: 190px;
+    margin: 1px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all 0.5s;
+    background: #fff;
+  }
+
+  /* Each section */
+  .s7-section-2 {
+    color: rgb(0, 0, 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 239.25px;
+    height: 190px;
+    margin: 1px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all 0.5s;
+    background: #fff;
+  }
+
+  /* Ensure inner content is on top of the circle */
+  .s7-default-content,
+  .s7-hover-content {
+    position: relative;
+    z-index: 1;
+    transition: opacity 1s ease;
+  }
+
+  .s7-section:hover,
+  .s7-section-2:hover {
+    border: 1px solid rgba(255, 255, 255, 0.85);
+  }
+
+  /* Hover content is absolutely positioned on top */
+  .s7-hover-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(214, 55, 6, 0.85);
+    opacity: 0;
+    color: #fff;
+  }
+
+  /* On hover, fade out the default content */
+  .s7-section:hover .s7-default-content,
+  .s7-section-2:hover .s7-default-content {
+    opacity: 0;
+  }
+
+  /* On hover, fade in the hover content */
+  .s7-section:hover .s7-hover-content,
+  .s7-section-2:hover .s7-hover-content {
+    border: none;
+    outline: none;
+    opacity: 1;
+  }
+
+  /* Icon styling */
+  .s7-icon {
+    font-size: 3em;
+  }
+
+  /* Description styling */
+  .s7-description {
+    margin-top: 10px;
+    font-size: 30px;
+    /* background: #2a92a0; */
+    padding: 10px;
+    border-radius: 10px;
+    color: #dd9700;
+  }
+
+  .s7 {
+    font-size: 50px;
+  }
+
+  .s7-title h1 {
+    font-size: 25px;
+    margin: 20px 0;
+    color: rgb(0, 0, 0);
+  }

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>main-page section 5</title>
+    <style>
+      /* Container for the four sections */
+      .s5-container2 {
+        width: 100%;
+        max-width: 1200px;
+        margin: 40px auto;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        padding: 0 20px;
+        box-sizing: border-box;
+        
+      }
+      /* Each section */
+      .s5-section2 {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        padding: 20px;
+        box-sizing: border-box;
+        min-height: 200px;
+      }
+      /* For sections in the first row, the image is on the left */
+      .s5-first-row .s5-img-side {
+        order: 1;
+        flex: 1 1 50%;
+      }
+      .s5-first-row .s5-text-side {
+        order: 2;
+        flex: 1 1 50%;
+        padding-left: 20px;
+      }
+      /* For sections in the second row, the image is on the right */
+      .s5-second-row .s5-text-side {
+        order: 1;
+        flex: 1 1 50%;
+        padding-right: 20px;
+      }
+      .s5-second-row .s5-img-side {
+        order: 2;
+        flex: 1 1 50%;
+      }
+      /* Image styling */
+      .s5-img-side img {
+        width: 200px;
+        height: 200px;
+        display: block;
+        object-fit: cover;
+      }
+      /* Text content styling */
+      .s5-small-title {
+        font-size: 0.9em;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        color: #555;
+      }
+      .s5-large-title {
+        font-size: 1.5em;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #222;
+      }
+      .s5-description {
+        font-size: 1em;
+        line-height: 1.4em;
+        color: #333;
+      }
+
+
+
+      @media screen and (max-width: 1000px) {
+
+        .s5-container2 {
+            width: 100%;
+            max-width: 1200px;
+            margin: 40px auto;
+            /* display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px; */
+
+            display: flex;
+            flex-direction: column;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+      }
+
+
+
+
+    </style>
+  </head>
+  <body>
+    <!-- Previous container would be here -->
+
+    <!-- New Container for the 4 sections -->
+    <div class="s5-container2">
+      <!-- Section 1 (first row: image left) -->
+      <div class="s5-section2 s5-first-row">
+        <div class="s5-img-side">
+            <img src="./assets/imgs/d5.png" alt="Image 3" />
+        </div>
+        <div class="s5-text-side">
+          <!-- <div class="s5-small-title">Small Title 1</div> -->
+          <div class="s5-large-title">Medical App</div>
+          <div class="s5-description">
+            A medical app designed to provide quick, reliable health advice and information.
+            Offers personalized health recommendations based on user input and symptoms.
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2 (first row: image left) -->
+      <div class="s5-section2 s5-first-row">
+        <div class="s5-img-side">
+          
+            <img src="./assets/imgs/d1.png" alt="Image 3" />
+        </div>
+        <div class="s5-text-side">
+          <!-- <div class="s5-small-title">Small Title 2</div> -->
+          <div class="s5-large-title">Doctor Connectivity</div>
+          <div class="s5-description">
+            New hardware solutions enabling seamless communication between doctors and patients.
+            Enhances remote consultations with high-quality video and real-time data sharing.
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3 (second row: image right) -->
+      <div class="s5-section2 s5-second-row">
+        <div class="s5-text-side">
+          <!-- <div class="s5-small-title">Small Title 3</div> -->
+          <div class="s5-large-title">Test Your Body Health</div>
+          <div class="s5-description">
+            A platform that helps you monitor and assess your overall health status.
+            Provides easy-to-use tools for tracking vital signs, fitness, and wellness levels.
+          </div>
+        </div>
+        <div class="s5-img-side">
+          <img src="./assets/imgs/d2.png" alt="Image 3" />
+        </div>
+      </div>
+
+      <!-- Section 4 (second row: image right) -->
+      <div class="s5-section2 s5-second-row">
+        <div class="s5-text-side">
+          <!-- <div class="s5-small-title">Small Title 4</div> -->
+          <div class="s5-large-title">Ask Expert Doctors</div>
+          <div class="s5-description">
+            A service that connects you with qualified medical professionals for expert advice.
+            Get answers to health concerns quickly, without waiting for an in-person visit.
+          </div>
+        </div>
+        <div class="s5-img-side">
+            <img src="./assets/imgs/d3.png" alt="Image 3" />
+      </div>
+    </div>
+  </body>
+</html>

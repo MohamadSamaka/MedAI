@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<!-- DATABASES:
+ 
+
+1. USERS
+
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Admin Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="admin.css" />
+
+    <style></style>
+  </head>
+  <body>
+
+       <!------------- TOPBAR --------------->
+       <div class="topbar-sub" id="topbar-sub"></div>
+       <div class="line-temp"></div>
+
+       
+    <!-- Topbar -->
+    <div id="topbar-dash">Admin Dashboard</div>
+    <div class="container">
+      <!-- Left Sidebar -->
+      <div class="container-left">
+        <nav class="navbar">
+          <ul id="navbarList">
+            <li>
+              <a href="#" onclick="showUserManagement()"
+                ><i class="fa-solid fa-users"></i> User Management</a
+              >
+            </li>
+            <li>
+              <a href="#" onclick="showStats()"
+                ><i class="fa-solid fa-chart-line"></i> Stats</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <!-- Right Content Area -->
+      <div class="container-right">
+        <div id="dashboardContent" class="dashboard">
+          <!-- Dynamic content will load here -->
+        </div>
+        
+      </div>
+    </div>
+
+
+    
+    <!------------- FOOTER --------------->
+    <div class="footer" id="footer">
+
+
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                  <!-- Load the translator script -->
+    <script src="../../translator.js"></script>
+    <script src="admin.js"></script>
+    
+  </body>
+</html>
