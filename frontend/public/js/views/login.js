@@ -44,7 +44,7 @@ export function render() {
     `;
 }
 
-export function init(styles, params) {
+export function init(styles, subloader, params) {
 
   // document.querySelector("#submit-btn").addEventListener("click", submitForm)
   const loginForm = document.getElementById("loginForm");

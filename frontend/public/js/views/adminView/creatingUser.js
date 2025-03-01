@@ -242,7 +242,7 @@ export function render() {
     `;
 }
 
-export async function init(styles, params) {
+export async function init(styles, subloader, params) {
   loadStyles(styles);
   // experties section
   const expertiseOptionsList = await getExpertise();
@@ -255,8 +255,7 @@ export async function init(styles, params) {
 
   //roles section
   const rolesOptionsList = await getRoles();
-
-  const rolesOptionsHtml = rolesOptionsList
+  const rolesOptionsHtml = rolesOptionsList.data
     .map(({ _id, roleName }) => {
       return `<option value="${_id}">${roleName}</option>`;
     })

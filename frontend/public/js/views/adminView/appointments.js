@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     fetchAppointments();
 });
 
-export function init(styles, params) {
+export function init(styles, subloader, params) {
   loadStyles(styles);
 }
 

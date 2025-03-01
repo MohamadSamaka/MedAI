@@ -3,7 +3,7 @@ import axiosInstance from './index.js';
 
 export async function getLocations() {
   try {
-    const response = await axiosInstance.get('/admin/location', {
+    const response = await axiosInstance.get('/public/location', {
       withCredentials: true,
     });
     return response.data
@@ -21,7 +21,7 @@ export async function getLocations() {
 
 export async function getLocation(locationId) {
   try {
-    const response = await axiosInstance.get('/admin/location/${locationId}', {
+    const response = await axiosInstance.get(`/protected/location/${locationId}`, {
       withCredentials: true,
     });
     return response.data
@@ -39,7 +39,7 @@ export async function getLocation(locationId) {
 
 export async function getClosestLocations(locationId) {
   try {
-    const response = await axiosInstance.get('/protected/locatin/${location}', {
+    const response = await axiosInstance.get(`/protected/location/closest/${locationId}`, {
       withCredentials: true,
     });
     return response.data

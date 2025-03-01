@@ -6,9 +6,9 @@ export async function getDoctors() {
   });
 }
 
-export async function getDoctorByExperties(expertise) {
+export async function getDoctorByExperties(expertiseId) {
   try {
-    const response = await axiosInstance.get("/protected/doctor", expertise, {
+    const response = await axiosInstance.get(`/protected/doctor/expertise/${expertiseId}`, {
       withCredentials: true,
     });
     return response.data
@@ -24,7 +24,7 @@ export async function getDoctorByExperties(expertise) {
 
 export async function docsAvailbleAppointments(docId) {
   try {
-    const response = await axiosInstance.get("/protected/doctor/:doctorId/availableAppointments", docId, {
+    const response = await axiosInstance.get(`/protected/doctor/${docId}/availableAppointments`, {
       withCredentials: true,
     });
     return response.data

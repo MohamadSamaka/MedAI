@@ -14,6 +14,6 @@ export function render(user) {
     `;
 }
 
-export function init(styles, params) {
+export function init(styles, subloader, params) {
   loadStyles(styles);
 }

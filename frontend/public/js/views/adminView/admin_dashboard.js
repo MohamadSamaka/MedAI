@@ -1,7 +1,12 @@
-import { loadStyles } from "/helpers/stylesManager.js";
-import { generateRolesOptions } from "/helpers/rolesOptionsGenerator.js";
-import { getUsers } from "/js/api/userAPI.js";
+import { loadStyles } from "/js/helpers/stylesManager.js";
+import { generateRolesOptions } from "/helpers/OptionsGenerator.js";
+import { getUsers, deleteUser } from "/js/api/userAPI.js";
 import { getRoles } from "/js/api/rolesAPI.js";
+import { renderView } from "/js/routes/router.js";
+
+let roles;
+let users;
+let rolesMap;
 
 export function render() {
   return `
@@ -14,13 +19,20 @@ export function render() {
         <nav class="navbar">
           <ul id="navbarList">
             <li>
-              <a href="#" onclick="showUserManagement()"
+              <a href="/admin/dashboard" data-link data-render-in="dashboardContent""
                 ><i class="fa-solid fa-users"></i> User Management</a
               >
             </li>
             <li>
-              <a href="#" onclick="showStats()"
-                ><i class="fa-solid fa-chart-line"></i> Stats</a
+              <a>
+              <i class="fa-solid fa-chart-line"></i> Stats</a
+              >
+            </li>
+            <li>
+              <a href="/admin/dashboard/users" data-link data-render-in="dashboardContent">
+              <i class="fa-solid fa-chart-line"></i> 
+              create new user
+              </a
               >
             </li>
           </ul>
@@ -45,98 +57,157 @@ export function render() {
     `;
 }
 
-export async function init(styles, params) {
+function showUserManagement() {
+  const dashboard = document.getElementById("dashboardContent");
+  dashboard.innerHTML = `
+       <div class="right-top">
+        <div class="section-title">
+          <br /><br />
+          <i class="fa-solid fa-users"></i> User Management
+        </div>
+        <ul>
+          <li>
+            View comprehensive lists of patients, doctors, and other admins.
+          </li>
+          <li>Edit user details and update roles or permissions.</li>
+          <li>Delete or suspend user accounts as needed.</li>
+        </ul>
+      </div>
+        <div class="dashboard-section" id="user-management">
+          
+          <div class="section-content">
+            <div class="filter-bar">
+              <label for="roleFilter">Filter by Role:</label>
+              <select id="roleFilter">
+              <option value="" selected>all</option>
+              ${generateRolesOptions(roles)}
+              </select>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Email</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="userTableBody">
+                ${users
+                  .map(
+                    (user) => `
+                  <tr data-role="${user.role}" data-user-id=${user.id}>
+                    <td class="id-person-column">${user.idPerson}</td>
+                    <td class="full-name-column">${user.Fname} ${
+                      user.Lname
+                    }</td>
+                    <td class="role-name-column">${rolesMap[user.role]}</td>
+                    <td class="email-column">${user.email}</td>
+                    <td class="action-buttons">
+                      <button class="edit"">Edit</button>
+                      <button class="delete" >Delete</button>
+                    </td>
+                  </tr>
+                `
+                  )
+                  .join("")}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+  setDeleteButtonElements();
+  setRoleFilterChangeEvent();
+  // filterUsers();
+}
+
+function subRouteLoader(subloader, subRouteName) {
+  switch (subRouteName) {
+    case "users":
+      renderView(subloader.usersDashboard, "dashboardContent");
+      break;
+
+    default:
+      break;
+  }
+}
+
+function filterUsers() {
+  const filter = document.getElementById("roleFilter").value;
+  const rows = document
+    .getElementById("userTableBody")
+    .getElementsByTagName("tr");
+  Array.from(rows).forEach((row) => {
+    const role = row.getAttribute("data-role");
+    if (filter === "" || role === filter) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+  });
+}
+
+// Delete user: Remove the user from the data and refresh view
+async function deleteUserFromDom(id, fullUserName) {
+  const confirmation = confirm(
+    `Are you sure you want to delete the user named "${fullUserName}"?`
+  );
+
+  if (confirmation) {
+    const index = users.findIndex((u) => u.id === id);
+    console.log(users[index]);
+    if (index !== -1) {
+      users.splice(index, 1);
+      showUserManagement();
+      try {
+        await deleteUser(id);
+        alert(`User "${fullUserName}" has been deleted successfully.`);
+      } catch (error) {
+        console.error(error.meesage);
+        alert("Failed to delete user");
+      }
+    }
+  }
+}
+
+function setRoleFilterChangeEvent() {
+  const rolesFilterMenu = document.querySelector("#roleFilter");
+  rolesFilterMenu.addEventListener("change", () => filterUsers());
+}
+
+function setDeleteButtonElements() {
+  const userRows = document.querySelectorAll("#userTableBody tr");
+  userRows.forEach((row) => {
+    const userId = row.getAttribute("data-user-id");
+    const fullUserName = row.querySelector(".full-name-column").textContent;
+    const deleteButton = row.querySelector(".delete");
+    deleteButton.addEventListener("click", () =>
+      deleteUserFromDom(userId, fullUserName)
+    );
+  });
+}
+
+export async function init(styles, subloader, params) {
   loadStyles(styles);
 
-  // Sample user data
-  let roles;
-  let users;
   try {
     roles = (await getRoles()).data;
-    console.log(roles);
   } catch (error) {
     alert(error.message);
   }
   try {
     users = (await getUsers()).data.data;
-    console.log(users);
   } catch (error) {
     alert(error.message);
   }
 
-  const roleMap = roles.reduce((map, role) => {
+  rolesMap = roles.reduce((map, role) => {
     map[role._id] = role.roleName;
     return map;
   }, {});
 
   // Show User Management view
-  function showUserManagement() {
-    const dashboard = document.getElementById("dashboardContent");
-    dashboard.innerHTML = `
-
-
-         <div class="right-top">
-          <div class="section-title">
-            <br /><br />
-            <i class="fa-solid fa-users"></i> User Management
-          </div>
-          <ul>
-            <li>
-              View comprehensive lists of patients, doctors, and other admins.
-            </li>
-            <li>Edit user details and update roles or permissions.</li>
-            <li>Delete or suspend user accounts as needed.</li>
-          </ul>
-        </div>
-          <div class="dashboard-section" id="user-management">
-            
-            <div class="section-content">
-              <div class="filter-bar">
-                <label for="roleFilter">Filter by Role:</label>
-                <select id="roleFilter" onchange="filterUsers()">
-                ${generateRolesOptions(roles)}
-                </select>
-              </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Role</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="userTableBody">
-                  ${users
-                    .map(
-                      (user) => `
-                    <tr data-role="${user.role}">
-                      <td>${user.idPerson}</td>
-                      <td>${user.Fname} ${user.Lname}</td>
-                      <td>${roleMap[user.role]}</td>
-                      <td>${user.email}</td>
-                      <td class="action-buttons">
-                        <button class="edit" onclick="editUser(${
-                          user.id
-                        })">Edit</button>
-                        <button class="delete" onclick="deleteUser(${
-                          user.id
-                        })">Delete</button>
-                        <button class="promote" onclick="promoteUser(${
-                          user.id
-                        })">Promote</button>
-                      </td>
-                    </tr>
-                  `
-                    )
-                    .join("")}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        `;
-  }
 
   // Show Stats view
   function showStats() {
@@ -164,44 +235,7 @@ export async function init(styles, params) {
   }
 
   // Filter users based on dropdown selection
-  function filterUsers() {
-    const filter = document.getElementById("roleFilter").value;
-    const rows = document
-      .getElementById("userTableBody")
-      .getElementsByTagName("tr");
-    Array.from(rows).forEach((row) => {
-      const role = row.getAttribute("data-role");
-      if (filter === "all" || role === filter) {
-        row.style.display = "";
-      } else {
-        row.style.display = "none";
-      }
-    });
-  }
 
-  // Edit user: Simulate navigation to an edit page
-  function editUser(id) {
-    alert("Navigate to edit page for user ID: " + id);
-  }
-
-  // Delete user: Remove the user from the data and refresh view
-  function deleteUser(id) {
-    const index = users.findIndex((u) => u.id === id);
-    if (index !== -1) {
-      users.splice(index, 1);
-      showUserManagement();
-    }
-  }
-
-  // Promote user: Change role to Admin and refresh view
-  function promoteUser(id) {
-    const user = users.find((u) => u.id === id);
-    if (user) {
-      user.role = "Admin";
-      showUserManagement();
-    }
-  }
-
-  // Initialize with User Management view
-  showUserManagement();
+  showUserManagement(rolesMap);
+  subRouteLoader(subloader, params.subRoute);
 }

@@ -1,5 +1,6 @@
 import { loadStyles } from "/js/helpers/stylesManager.js";
 import { sendMessage, getUserChatLog } from "/js/api/chatbotAPI.js";
+import { setLinksAction } from "/js/routes/router.js";
 
 export function render() {
   return `
@@ -8,10 +9,11 @@ export function render() {
       <!-- Main Chat Area -->
       <div class="chat-container" id="chatContainer">
       
-        <div class="chat-header"><a href="/"
-        ><button class="home-btn" id="home-icon">
-          <i class="fa-solid fa-house"></i></button
-      ></a><span id="chatbot-title">MedicalGPT</span></div>
+        <div class="chat-header">
+        <a href="/" class="home-btn" id="go-back-home" data-link>
+         <i class="fa-solid fa-house"></i>
+         </a>
+        <span id="chatbot-title">MedicalGPT</span></div>
         <div class="chat-messages" id="chatMessages">
           <!-- Chat messages will be appended here -->
         </div>
@@ -30,15 +32,22 @@ export function render() {
     `;
 }
 
-export async function init(styles, params) {
+export async function init(styles, subloader, params) {
   loadStyles(styles);
+  
   // Global object to store conversations by ID.
   // Global object to store conversations by ID.
 
   // Chat elements.
+  // const goBackHomeBtn = document.querySelector("#go-back-home")
+
   const chatInput = document.getElementById("chatInput");
   const sendButton = document.getElementById("sendButton");
   const chatMessages = document.getElementById("chatMessages");
+  // goBackHomeBtn.addEventListener("click", (event) => {
+  //   event.preventDefault()
+  //   setLinksAction(event)
+  // })
 
   // Append a chat message.
   function appendMessage(content, sender = "bot") {
