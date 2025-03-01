@@ -7,7 +7,7 @@ export async function getUsers() {
 }
 
 export async function getUserById(userId) {
-  return await axiosInstance.get("/user/:id", userId, {
+  return await axiosInstance.get(`/user/${userId}`, userId, {
     withCredentials: true,
   });
 }
@@ -15,7 +15,7 @@ export async function getUserById(userId) {
 
 export async function createUser(userData) {
   try {
-    const response = await axiosInstance.post("/admin/user", userData, {
+    const response = await axiosInstance.post(`/admin/user`, userData, {
       withCredentials: true,
     });
     return response.data

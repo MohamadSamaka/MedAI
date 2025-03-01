@@ -1,18 +1,18 @@
 import { getExpertise } from "/js/api/expertiseAPI.js";
-import { generateExpertiseOptions } from "/helpers/OptionsGenerator.js";
+import { getLocations, getClosestLocations } from "/js/api/locationAPI.js";
+import {
+  getDoctorByExperties,
+  docsAvailbleAppointments,
+} from "/js/api/doctorAPI.js";
+
+import {
+  generateExpertiseOptions,
+  generateLocationOptions,
+} from "/helpers/OptionsGenerator.js";
 import { loadStyles } from "/js/helpers/stylesManager.js";
 
-
-// import { getExpertise } from "/js/api/expertiseAPI.js";
-// import { loadStyles } from "/js/helpers/stylesManager.js";
-// import {getDoctorByExperties} from "/js/api/doctorAPI.js"
-// import { getDoctors } from "/js/api/doctorAPI.js";
-// import { docsAvailbleAppointments } from "/js/api/doctorAPI.js"; //ret format [{date, time}]
-// import {getClosestLocations}from "/js/api/locationAPI.js";
-// import{createAppintment} from "/js/api/AppointmentAPI.js";
-// import{getDoctorFutureAppointments} from "/js/api/AppointmentAPI.js";
-
-let expertise = null
+let expertise = null;
+let locations = null;
 
 export function render(user) {
   return `
@@ -23,9 +23,12 @@ export function render(user) {
         <option value="">All Expertise</option>
     </select>
     
-    <label for="search">Select Closest Location:</label>
-    <input type="text" id="search" placeholder="Enter date, doctor name, or location">
-    <button onclick="searchAppointments()">Search</button>
+    <label for="location"> Select Closest Location:  </label>
+    <select id="location">
+      <option value="">Locations</option>
+    </select>
+    
+    <button id="search-for-appointments-btn">Search</button>
     
     <table>
         <thead>
@@ -42,122 +45,121 @@ export function render(user) {
     `;
 }
 
+function generateLocationsMap(locationsList) {
+  return locationsList.reduce((map, location) => {
+    map[location._id] = location.locationName;
+    return map;
+  }, {});
+}
+
+function generateExpertiseMap(expertiseList) {
+  return expertiseList.reduce((map, expertise) => {
+    map[expertise._id] = expertise.name;
+    return map;
+  }, {});
+}
 
 export function init(styles, subloader, params) {
   loadStyles(styles);
+  let choosenExpertiseId = null;
+  let choosenLocationId = null;
+  let choosenLocationName = null;
+  let locationsMap = null; // a map to get the location name by id
+  let expertiseMap = null; // a map to get the expertise name by id
+  let doctorByExperties = null;
+  let closestDocsLocations = null;
+  let docsAvailableAppointmentsMap = {}; //an object that maps doc ids to their appointments
   const specialtyDropdown = document.getElementById("Expertise");
+  const locationDropDown = document.getElementById("location");
   const userTableBody = document.getElementById("appointments-table-body");
-  specialtyDropdown.addEventListener("change", UserlocationFunc)
+  const searchAppointsBtn = document.getElementById(
+    "search-for-appointments-btn"
+  );
+
   async function genereateExpertiseList() {
     try {
       expertise = await getExpertise();
-      console.log(expertise)
-      specialtyDropdown.innerHTML = generateExpertiseOptions(expertise)
+      expertiseMap = generateExpertiseMap(expertise);
+      specialtyDropdown.innerHTML = generateExpertiseOptions(expertise);
     } catch (error) {
       console.error("Error fetching Expertises:", error);
     }
-    return expertise
+    return expertise;
   }
   genereateExpertiseList();
 
-  async function getDoctorByExperties(){
-
-  }
-
-  async function UserlocationFunc(specialty = "") {
+  async function genereateLocationList() {
     try {
-      // i need the user get the Appointments function name
-      //const response = await axiosInstance.get("/api/protected/appointments", { withCredentials: true });
-      const Doctors = getDoctorByExperties(experties);
-      const lableLocation = document.createElement("label");
-      lableLocation.for = "location";
-      lableLocation.textContent = "Select Location:";
-
-      const UserLocationInput = document.createElement("input");
-      UserLocationInput.type = "text";
-      UserLocationInput.id = "Userlocation";
-      UserLocationInput.placeholder = "Enter your location";
-      UserLocationInput.required;
-
-      const searchButton = document.createElement("button");
-      searchButton.onclick =
-        "searchLocation(${UserLocationInput.value},${Doctors})";
-      searchButton.textContent = "Search";
+      locations = await getLocations();
+      locationsMap = generateLocationsMap(locations);
+      locationDropDown.innerHTML = generateLocationOptions(locations);
     } catch (error) {
-      console.error("Error fetching appointments:", error);
+      console.error("Error fetching Expertises:", error);
     }
   }
 
-  // UserlocationFunc()
+  specialtyDropdown.addEventListener("change", () => {
+    choosenExpertiseId = specialtyDropdown.value;
+  });
 
-  async function searchLocation(userLocation, doctors) {
-    const ClosetsLocation = getClosetLocation(userLocation);
-    closeLocationDropdown.id = "closeLocationDropdown";
-    const CloseLocationDropdown = document.createElement("select");
-    ClosetsLocation.forEach((location) => {
-      doctors.forEach((doctor) => {
-        if (doctor.location === location) {
-          const option = document.createElement("option");
-          option.value = location;
-          option.textContent = location;
-          CloseLocationDropdown.appendChild(option);
-        }
+  locationDropDown.addEventListener("change", () => {
+    choosenLocationId = locationDropDown.value;
+    choosenLocationName =
+      locationDropDown.options[locationDropDown.selectedIndex].text;
+  });
+
+  genereateLocationList();
+
+  function pickDoctor(docId) {
+    const doctorSegment = docsAvailableAppointmentsMap[docId].slice(0, 10); // only getting first 10 docs
+    console.log(doctorSegment);
+  }
+
+  function setBookingEventListener() {
+    userTableBody
+      .querySelectorAll("button[data-book-doc]")
+      .forEach((button) => {
+        const docID = button.getAttribute("data-book-doc");
+        button.addEventListener("click", () => pickDoctor(docID));
       });
-    });
   }
 
-  // searchLocation()
-
-  document.addEventListener("closeLocationDropdown", async function () {});
-
-  function renderAppointments(appointments) {
-    userTableBody.innerHTML = "";
-    appointments.forEach((app) => {
-      const row = document.createElement("tr");
-      row.innerHTML = `
-                <td>${new Date(
-                  app.dateTime
-                ).toLocaleTimeString()}</td> // i need the user get the dateTime function name
-                <td>${app.doctor.name}</td>
-                <td>${app.Expertise}</td>
-                <td>${app.location}</td>
-                <td><button onclick="bookAppointment('${
-                  app._id
-                }')">Book</button></td>
-            `;
-      userTableBody.appendChild(row);
-    });
-  }
-  // async function bookAppointment(appointmentId) {
-  //   try {
-  //     // i need the user book the appointment function name that
-  //     // alert("Appointment booked successfully.");
-  //     fetchAppointments();
-  //   } catch (error) {
-  //     console.error("Error booking appointment:", error);
-  //     alert("Failed to book appointment.");
-  //   }
-  // }
-  // bookAppointment()
-  // renderAppointments()
-
-  function filterAppointmentsBySpecialty() {
-    const selectedSpecialty = specialtyDropdown.value;
+  function generateDoctorList(doctorByExperties) { //renders the doctors
+    const docRows = doctorByExperties
+      .map((docInfo) => {
+        const fullName = `${docInfo.docPersonalInfo.Fname} ${docInfo.docPersonalInfo.Lname}`;
+        const expertise = `${expertiseMap[docInfo.expertise]}`;
+        const location = `${locationsMap[docInfo.location]}`;
+        //idk what to put in the date so i placed "?"
+        return `
+      <tr>
+      <td>?</td> 
+      <td>${fullName}</td>
+      <td>${expertise}</td>
+      <td>${location}</td>
+      <td><button data-book-doc="${docInfo._id}">there you go</button></td>
+      </tr>`;
+      })
+      .join("");
+    userTableBody.innerHTML = docRows;
   }
 
-  async function searchAppointments() {
-    const searchTerm = document.getElementById("search").value.toLowerCase();
-    const rows = document.querySelectorAll("#appointments-table-body tr");
-    rows.forEach((row) => {
-      row.style.display = row.textContent.toLowerCase().includes(searchTerm)
-        ? ""
-        : "none";
-    });
-  }
-  // searchAppointments()
+  async function obtainInfo() {
+    doctorByExperties = await getDoctorByExperties(choosenExpertiseId); //gets doctors by expertise
 
-  specialtyDropdown.addEventListener("change", filterAppointmentsBySpecialty);
-  
+    //gets closest location array (its an object apparently with "sortedLocationIds" that has
+    //the array insde, we might have to change this in backend to return array immedietly vvvvvvvvvvvvvv
+    closestDocsLocations = await getClosestLocations(choosenLocationId); 
+    for (const { _id } of doctorByExperties) { //generates the map
+      docsAvailableAppointmentsMap[_id] = await docsAvailbleAppointments(_id);
+    }
+    generateDoctorList(doctorByExperties); 
+    setBookingEventListener(); //add event listener to open the menu to see appointments for that doc
+  }
+
+  searchAppointsBtn.addEventListener("click", obtainInfo); //when search clicked this triggers
+
+
   function createAppintment(doctor, dateTime) {
     const data = {
       experties: doctor.Expertise,

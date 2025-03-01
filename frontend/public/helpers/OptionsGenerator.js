@@ -9,3 +9,9 @@ export function generateExpertiseOptions(expertiesList) {
         return `<option id="${_id}" value="${_id}">${name}</option>`
     }).join("")
 }
+
+export function generateLocationOptions(locationsList) {
+    return locationsList.map(({ _id, locationName }) => {
+        return `<option id="${locationName}"  value="${_id}">${locationName}</option>`;
+      }).join("");
+}
