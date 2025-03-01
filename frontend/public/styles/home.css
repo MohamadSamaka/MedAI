@@ -742,3 +742,7 @@
     margin: 20px 0;
     color: rgb(0, 0, 0);
   }
+
+#header{
+  display: block!important;
+}

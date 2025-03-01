@@ -2,7 +2,6 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  padding-top: 70px;
 }
 
 .logo_2 {
@@ -55,19 +54,17 @@ body {
   width: 100%;
 }
 
-
 #section-section5 {
   background: #159b20;
 }
 
 main#root {
   overflow-y: hidden;
-  padding: 1rem;
+  /* padding: 1rem; */
   min-height: 60vh;
   opacity: 1;
   transition: opacity 0.5s ease;
 }
-
 
 /****************** top bar ******************/
 
@@ -96,9 +93,9 @@ main#root {
   left: 0;
   right: 0;
   display: flex;
-  padding: 15px 0;
+  /* padding: 15px 0; */
   background: #ffffff;
-  padding: 15px 0;
+  /* padding: 15px 0; */
   width: 100vw;
   z-index: 1000;
 }
@@ -132,6 +129,7 @@ main#root {
   transition: background 0.3s;
   font-weight: bold;
   padding: 10px 25px !important;
+  margin: 0 5px;
   background: #0953a7;
 }
 
@@ -198,7 +196,7 @@ main#root {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 15px 20px;
+  /* padding: 15px 20px; */
   background: #ffffff;
 }
 
@@ -218,7 +216,6 @@ main#root {
   align-items: center;
   /* justify-content: center; */
 }
-
 
 /******************** footer ******************/
 
@@ -319,4 +316,200 @@ main#root {
 
 .footer {
   background: #333333;
+}
+
+
+/*********************        TOP BAR ***************/
+
+.rounded {
+  border-radius: 20px;
+
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+}
+
+.sidebar-icon {
+  margin-right: 30px;
+  font-size: 40px;
+  color: #2d94bd;
+}
+
+.logo {
+  margin-right: 50px;
+  height: 50px;
+}
+
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  /* padding: 15px 0; */
+  background: #ffffff;
+  /* padding: 15px 0; */
+  width: 100vw;
+  z-index: 1000;
+  height: 85px;
+}
+
+.topbar-left {
+  flex: 3;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+}
+
+.topside-btn {
+  color: black;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+
+.topbar-center {
+  /* position: relative; */
+  flex: 2;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+.btn1 {
+  /* background: #3a73b4 !important; */
+  color: rgb(255, 255, 255);
+  transition: background 0.3s;
+  font-weight: bold;
+  padding: 10px 25px !important;
+  background: #0953a7;
+}
+
+.btn1:hover {
+  background: #0953a7 !important;
+  color: white;
+}
+
+.btn2 {
+  background: #058625 !important;
+  color: white;
+  transition: background 0.3s;
+  font-weight: bold;
+  width: fit-content;
+  /* margin: 0 10px; */
+  /* padding: 10px; */
+}
+#contact {
+  margin: 0 10px;
+  padding: 10px 25px;
+}
+
+.btn2:hover {
+  background: #045a19 !important;
+  color: white;
+}
+
+.topbar-right {
+  flex: 4;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  align-items: center;
+}
+
+.topbar-right a{
+  padding: 0.3rem;
+}
+
+#user-name {
+  /* margin-top: 35px; */
+  background: #e3f6f8;
+  padding: 10px;
+  margin-right: 10px;
+  border-radius: 10px;
+}
+
+#line-col-small {
+  border-right: 1px solid rgb(228, 228, 228);
+  height: 30px;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.line-temp {
+  position: fixed;
+  background: #2d94bd;
+  height: 1px;
+  width: 100%;
+  top: 85px;
+  left: 0;
+  right: 0;
+  z-index: 40000;
+}
+
+@media screen and (max-width: 1000px) {
+  .topbar-center {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    /* padding: 15px 0; */
+    background: #ffffff;
+    /* padding: 15px 0; */
+    width: 100%;
+    z-index: 1000;
+  }
+
+  .topbar-left {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #menu-btn {
+    display: none;
+  }
+
+  .topbar-right {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .topside-btn {
+    font-size: 13px;
+  }
+  /* 
+    .topbar {
+      background: #b32929;
+    } */
+}
+
+@media screen and (max-width: 500px) {
+  .topside-btn {
+    font-size: 13px;
+  }
+
+  .logo {
+    display: none;
+  }
+  /* .topbar {
+      background: #b32929;
+    } */
+
+  .line-col-small {
+    border-right: 0px solid rgb(228, 228, 228);
+    height: 30px;
+    margin-right: 0px;
+    margin-left: 0px;
+  }
 }
