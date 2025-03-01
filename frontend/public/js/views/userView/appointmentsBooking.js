@@ -125,6 +125,7 @@ export function init(styles, subloader, params) {
 
   locationDropDown.addEventListener("change", () => {
     choosenLocationId = locationDropDown.value;
+
   });
 
   // ----------------------- GENERATE APPOINTMENT LIST ---------------------- //
@@ -197,6 +198,7 @@ export function init(styles, subloader, params) {
     // Build rows for each doctor
     const docRows = doctorByExperties
       .map((docInfo) => {
+        console.log(docInfo)
         const fullName = `${docInfo.docPersonalInfo.Fname} ${docInfo.docPersonalInfo.Lname}`;
         const expertise = expertiseMap[docInfo.expertise] || "N/A";
         const location = locationsMap[docInfo.location] || "N/A";
@@ -236,7 +238,7 @@ export function init(styles, subloader, params) {
 
       // Fetch doctors by the chosen expertise
       doctorByExperties = await getDoctorByExperties(choosenExpertiseId);
-
+      // docPersonalInfo
       // If none found, clear the table and show a message
       if (!doctorByExperties || doctorByExperties.length === 0) {
         userTableBody.innerHTML = "";
@@ -276,6 +278,7 @@ export function init(styles, subloader, params) {
         doctorId: docId,
         dateTime: appointmentdateTime,
       };
+
 
       await createAppintment(data);
       alert("Appointment created successfully!");

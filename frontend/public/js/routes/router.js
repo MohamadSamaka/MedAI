@@ -23,21 +23,11 @@ export const routes = [
   },
   {
     pattern: "/my-appointment",
-    loader: () => import("/js/views/userView/myAppointment.js"),
-    // styles: [
-    //   {
-    //     href: "/styles/about.css",
-    //     id: "aboutStyles"
-    //   },
-    // ],
-  },
-  {
-    pattern: "/my-appointment-rodin",
-    loader: () => import("/js/views/userView/appointmentBookingRodin.js"),
+    loader: () => import("/js/views/userView/patient.js"),
     styles: [
       {
-        href: "/styles/appointmentRodin.css",
-        id: "appointmentRodin",
+        href: "/styles/patient.css",
+        id: "patientStyles"
       },
     ],
   },
@@ -47,7 +37,7 @@ export const routes = [
     styles: [
       {
         href: "/styles/bookAppointment.css",
-        id: "aboutStyles"
+        id: "appointmentsBookingStyles"
       },
     ],
   },
@@ -120,29 +110,7 @@ export const routes = [
     ],
   },
 
-  // {
-  //   pattern: "/admin/dashboard/user",
-  //   loader: () => import("/js/views/adminView/creatingUser.js"),
-  //   styles: [
-  //     {
-  //       href: "/styles/admin_dashboard.css",
-  //       id: "admin_dashboardStyles", //the name of the id doesn't matter, what's important is that it has to be unique
-  //     },
-  //     {
-  //       href: "/styles/ceatingUserDashboard.css",
-  //       id: "ceatingUserDashboard", //the name of the id doesn't matter, what's important is that it has to be unique
-  //     },
-  //     // {
-  //     //   href: "/styles/index.css",
-  //     //   id: "iasdasd", //the name of the id doesn't matter, what's important is that it has to be unique
-  //     // },
-  //   ],
-  // },
 
-  {
-    pattern: "/users/:userId",
-    loader: () => import("/js/views/userDashboard.js"),
-  },
   {
     pattern: "/contact",
     loader: () => import("/js/views/contact.js"),
