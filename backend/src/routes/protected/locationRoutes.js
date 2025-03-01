@@ -9,7 +9,7 @@ LocationRouter.get("/", (req, res, next) =>
 LocationRouter.get("/:id", (req, res, next) =>
   LocationController.getById(req, res, next)
 );
-LocationRouter.get("/:id", (req, res, next) =>
+LocationRouter.get("/closest/:locationId", (req, res, next) =>
   LocationController.getClosestLocations(req, res, next)
 );
 

@@ -1,24 +1,24 @@
-const Locations = require("../models/locationModel");
+const Location = require("../models/locationModel");
 
 class LocationRepository {
   async create(data) {
-    return await Locations.create(data);
+    return await Location.create(data);
   }
 
   async findById(id) {
-    return await Locations.findById(id);
+    return await Location.findById(id);
   }
 
   async findAll() {
-    return await Locations.find({});
+    return await Location.find({});
   }
 
   async update(id, data) {
-    return await Locations.findByIdAndUpdate(id, data, { new: true });
+    return await Location.findByIdAndUpdate(id, data, { new: true });
   }
 
   async delete(id) {
-    return await Locations.findByIdAndDelete(id);
+    return await Location.findByIdAndDelete(id);
   }
 
   

@@ -7,7 +7,6 @@ class DoctorController {
       res.status(201).json(doctor);
     }
     catch(error){
-      res.status(500).json({ message: "Error fetching doctor" });
       next(error);
     }
   }
@@ -17,7 +16,6 @@ class DoctorController {
       const doctor = await doctorService.getDoctorById(req.params.id);
       res.json(doctor);
     } catch (error) {
-      res.status(500).json({ message: "Error fetching doctor" });
       next(error);
     }
   }
@@ -28,18 +26,17 @@ class DoctorController {
       const doctors = await doctorService.getAllDoctors();
       res.json(doctors);
     } catch (error) {
-      res.status(500).json({ message: "Error fetching doctors" });
       next(error);
     }
   }
 
 
-  async getDoctorsByExpertise(req, res,next) {
+  async getDoctorsByExpertise(req, res, next) {
     try {
+      console.log(req.params.expertise)
       const doctors = await doctorService.getDoctorsByExpertise(req.params.expertise);
       res.json(doctors);
     } catch (error) {
-      res.status(500).json({ message: "Error fetching doctors by expertise" });
       next(error);
     }
   }
@@ -49,17 +46,16 @@ class DoctorController {
       const appointments = await doctorService.getDoctorAppointments(req.params.doctorId);
       res.json(appointments);
     } catch (error) {
-      res.status(500).json({ message: "Error fetching doctor appointments" });
       next(error);
     }
   }
 
   async getAvailableAppointments(req, res, next) {
     try {
+      console.log(req.params)
       const appointments = await doctorService.getAvailableAppointments(req.params.doctorId);
       res.json(appointments);
     } catch (error) {
-      res.status(500).json({ message: "Error fetching available appointments" });
       next(error);
     }
   }
@@ -70,7 +66,6 @@ class DoctorController {
       const appointment = await doctorService.getFirstAvailableAppointment(req.params.doctorId);
       res.json(appointment);
     } catch (error) {
-      res.status(500).json({ message: "Error fetching first available appointment" });
       next(error);
     }
   }
@@ -80,7 +75,6 @@ class DoctorController {
       await doctorService.cancelAppointment(req.params.appointmentId);
       res.json({ message: "Appointment successfully canceled" });
     } catch (error) {
-      res.status(500).json({ message: "Error canceling appointment", error: error.message });
       next(error);
     }
 }

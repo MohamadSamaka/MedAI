@@ -3,9 +3,9 @@ const medicalRecController = require("../../controllers/medicalRecController");
 const medicalRecRouter = Router();
 
 
-medicalRecRouter.get("/prescriptions", medicalRecController.getPrescriptions);
-medicalRecRouter.get("/:userId", medicalRecController.getMedicalRecord);
-medicalRecRouter.delete("/cancel-appointment/:appointmentId", medicalRecController.cancelAppointment); // ✅ Cancel Appointment
-medicalRecRouter.get("/:userId/myAppointments", medicalRecController.getAppointment);
+medicalRecRouter.get("/prescriptions", (req, res, next) => medicalRecController.getPrescriptions(req, res, next));
+medicalRecRouter.get("/:userId", (req, res, next) => medicalRecController.getMedicalRecord(req, res, next));
+medicalRecRouter.delete("/cancel-appointment/:appointmentId", (req, res, next) => medicalRecController.cancelAppointment(req, res, next)); // ✅ Cancel Appointment
+medicalRecRouter.get("/:userId/myAppointments", (req, res, next) => medicalRecController.getAppointment(req, res, next));
 
 module.exports = medicalRecRouter; 

@@ -1,7 +1,12 @@
 const LocationRepository = require("../repositories/locationRepository");
-const { validateLocationCreation, validateLocationUpdate } = require("../validators/locationValidator");
+const {
+  validateLocationCreation,
+  validateLocationUpdate,
+} = require("../validators/locationValidator");
 const JsonedResponseError = require("../errors/JsonedResponseError");
 const fs = require("fs");
+const path = require("path");
+
 
 class LocationService {
   ///not for now
@@ -20,36 +25,43 @@ class LocationService {
     return await LocationRepository.findAll();
   }
 
-
-/**
- * Get sorted location IDs from closest to farthest.
- * @param {string} locationName - The name of the reference location.
- * @returns {Promise<Array>} - Sorted array of location IDs.
- */
-async getClosestLocationIds(locationName) {
-// Load distance matrix from the `/data` folder
-const distances = JSON.parse(fs.readFileSync(path.join(__dirname, "utils/distances.json"), "utf-8"));
-
+  /**
+   * Get sorted location IDs from closest to farthest.
+   * @param {string} locationName - The name of the reference location.
+   * @returns {Promise<Array>} - Sorted array of location IDs.
+   */
+  async getClosestLocationIds(locationName) {
+    // Load distance matrix from the `/data` folder
+    const distanceFilePath = path.resolve(__dirname, '../../src/data/distances.json');
+    const distances = JSON.parse(
+      fs.readFileSync(distanceFilePath, "utf-8")
+    );
 
     if (!distances[locationName]) {
-        throw new Error(`Location '${locationName}' not found in distance matrix.`);
+      throw new Error(
+        `Location '${locationName}' not found in distance matrix.`
+      );
     }
 
     // Get sorted city names by distance
     const sortedCityNames = Object.entries(distances[locationName])
-        .sort((a, b) => a[1] - b[1]) // Sort by distance
-        .map(([city]) => city); // Extract city names
+      .sort((a, b) => a[1] - b[1]) // Sort by distance
+      .map(([city]) => city); // Extract city names
+
+
 
     // Fetch corresponding IDs from MongoDB
-    const locations = await LocationRepository.findLocationsByNames(sortedCityNames);
-
+    const locations = await LocationRepository.findLocationsByNames(
+      sortedCityNames
+    );
     // Create a name-to-ID mapping
-    const nameToIdMap = Object.fromEntries(locations.map(loc => [loc.locationName, loc._id]));
+    const nameToIdMap = Object.fromEntries(
+      locations.map((loc) => [loc.locationName, loc._id])
+    );
 
     // Convert sorted names to their IDs
-    return sortedCityNames.map(name => nameToIdMap[name]);
-}
-
+    return sortedCityNames.map((name) => nameToIdMap[name]);
+  }
 
   async updateLocation(id, data) {
     validateLocationUpdate(data);
