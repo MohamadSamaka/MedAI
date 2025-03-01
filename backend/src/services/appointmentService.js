@@ -2,7 +2,10 @@ const appointmentRepository = require("../repositories/appointmentRepository");
 const medicalRecordRepository = require("../repositories/medicalRecRepository");
 const doctorRepository = require("../repositories/doctorRepository");
 const JsonedResponseError = require("../errors/JsonedResponseError");
-const {validateAppointmentCreation} = require("../validators/appointmentValidator") 
+const {
+  validateAppointmentCreation,
+} = require("../validators/appointmentValidator");
+
 class AppointmentService {
   async createAppointment(data, reqUser) {
     //we get dateTime, doc ID user Id , location
@@ -13,10 +16,12 @@ class AppointmentService {
       experties: data.experties,
       location: data.location,
       doctor: data.doctorId,
-      dateTime: data.dateTime
+      dateTime: data.dateTime,
     };
     try {
-      const appointment = await appointmentRepository.createAppointment(updatedData);
+      const appointment = await appointmentRepository.createAppointment(
+        updatedData
+      );
       // Add appointment to user's medic  al record
       await medicalRecordRepository.addAppointment(reqUser.id, {
         appointment_time: data.dateTime,
@@ -30,11 +35,8 @@ class AppointmentService {
       });
 
       return appointment;
-    } catch(error) {
-      throw new JsonedResponseError(
-        error.message,
-        500
-      );
+    } catch (error) {
+      throw new JsonedResponseError(error.message, 500);
     }
   }
 
@@ -103,61 +105,71 @@ class AppointmentService {
   }
 
   //users Future Appointments
-  async getUserFutrueAppointments(userId, reqUserId){
-    if ((reqUser.role.toLowerCase() == "admin")||(reqUserId==userId)){
+  async getUserFutrueAppointments(userId, reqUserId) {
+    if (reqUser.role.toLowerCase() == "admin" || reqUserId == userId) {
+      const medicalRecord = await MedicalRecord.findOne({ userId });
+      if (
+        !medicalRecord ||
+        !medicalRecord.appointmentId ||
+        medicalRecord.appointmentId.length === 0
+      ) {
+        return res
+          .status(404)
+          .json({ message: "No upcoming appointments found" });
+      }
 
-const medicalRecord = await MedicalRecord.findOne({ userId });
-    if (!medicalRecord || !medicalRecord.appointmentId || medicalRecord.appointmentId.length === 0) {
-      return res.status(404).json({ message: "No upcoming appointments found" });
+      // Get all appointments by IDs
+      const allAppointments = await appointmentRepository.getAppointmentById(
+        medicalRecord.appointmentId
+      );
+
+      // Get the current date-time to make sure its sorted
+      const currentDateTime = new Date();
+      const futureAppointments = allAppointments.filter(
+        (appointment) => new Date(appointment.dateTime) >= currentDateTime
+      );
+      if (futureAppointments.length === 0) {
+        throw new Error("No upcoming appointments found");
+      }
+      // Format response
+      return futureAppointments.map((appointment) => ({
+        dateTime: appointment.dateTime,
+        appointment: appointment, // Full appointment details
+      }));
+    } else {
+      return new Error("You are now allowed to see this data");
+    }
   }
 
-  // Get all appointments by IDs
-  const allAppointments = await appointmentRepository.getAppointmentById(medicalRecord.appointmentId);
+  async getDoctorFutureAppointments(doctorId, reqUser) {
+    const doc = doctorRepository.getDoctorbyObjId(doctorId);
+    if (
+      reqUser.role.toLowerCase() == "admin" ||
+      (reqUser.role.toLowerCase() == "doctor" && doc.id == reqUser)
+    ) {
+      // Fetch all appointments for the doctor
+      const allAppointments =
+        await appointmentRepository.getAppointmentsByDoctorId(doctorId);
 
-  // Get the current date-time to make sure its sorted
-  const currentDateTime = new Date();
-  const futureAppointments = allAppointments.filter(appointment => new Date(appointment.dateTime) >= currentDateTime);
-  if (futureAppointments.length === 0) {
-    throw new Error("No upcoming appointments found");
-}
-// Format response
-return futureAppointments.map(appointment => ({
-  dateTime: appointment.dateTime,
-  appointment: appointment // Full appointment details
-}));
+      // Filter only future appointments
+      const currentDateTime = new Date();
+      const futureAppointments = allAppointments.filter(
+        (appointment) => new Date(appointment.dateTime) >= currentDateTime
+      );
+
+      if (futureAppointments.length === 0) {
+        throw new Error("No upcoming appointments found for this doctor");
+      }
+
+      // Format response
+      return futureAppointments.map((appointment) => ({
+        dateTime: appointment.dateTime,
+        appointment: appointment, // Full appointment details
+      }));
+    } else {
+      return new Error("You are not allowed to access this data");
     }
-    else{
-      return new Error("You are now allowed to see this data")
-    }
-  
-
-}
-
-async getDoctorFutureAppointments(doctorId, reqUser){
-  const doc=doctorRepository.getDoctorbyObjId(doctorId)
-  if ((reqUser.role.toLowerCase() == "admin")||((reqUser.role.toLowerCase() == "doctor")&&( doc.id==reqUser))){
-    // Fetch all appointments for the doctor
-   const allAppointments = await appointmentRepository.getAppointmentsByDoctorId(doctorId);
-
-   // Filter only future appointments
-   const currentDateTime = new Date();
-   const futureAppointments = allAppointments.filter(appointment => new Date(appointment.dateTime) >= currentDateTime);
-
-   if (futureAppointments.length === 0) {
-       throw new Error("No upcoming appointments found for this doctor");
-   }
-
-   // Format response
-   return futureAppointments.map(appointment => ({
-       dateTime: appointment.dateTime,
-       appointment: appointment // Full appointment details
-   }));
   }
-
-    else {
-     return new Error("You are not allowed to access this data")
-    }
-}
 
   //FOR ADMINS
   async getAppointmentsByUser(userId) {
