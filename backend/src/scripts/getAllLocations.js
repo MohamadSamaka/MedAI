@@ -9,7 +9,6 @@ async function getAllRoles() {
     
     // Retrieve all roles
     const locations = await Location.find({});
-    console.log('All roles:', locations);
   } catch (error) {
     console.error('Error retrieving roles:', error);
   } finally {

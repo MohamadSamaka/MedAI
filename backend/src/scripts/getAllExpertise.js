@@ -9,7 +9,6 @@ async function getAllExpertise() {
     
     // Retrieve all roles
     const expertise = await Expertise.find({});
-    console.log('All roles:', expertise);
   } catch (error) {
     console.error('Error retrieving expertise:', error);
   } finally {

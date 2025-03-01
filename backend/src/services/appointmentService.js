@@ -2,31 +2,38 @@ const appointmentRepository = require("../repositories/appointmentRepository");
 const medicalRecordRepository = require("../repositories/medicalRecRepository");
 const doctorRepository = require("../repositories/doctorRepository");
 const JsonedResponseError = require("../errors/JsonedResponseError");
-
+const {validateAppointmentCreation} = require("../validators/appointmentValidator") 
 class AppointmentService {
   async createAppointment(data, reqUser) {
     //we get dateTime, doc ID user Id , location
     // Validate data with Joi.
     validateAppointmentCreation(data);
-    if (reqUser == "admin" || data.patient == reqUser) {
-      const appointment = await appointmentRepository.createAppointment(data);
-
-      // Add appointment to user's medical record
-      await medicalRecordRepository.addAppointment(data.patient, {
+    // Create a new object with the renamed key
+    const updatedData = {
+      experties: data.experties,
+      location: data.location,
+      doctor: data.doctorId,
+      dateTime: data.dateTime
+    };
+    try {
+      const appointment = await appointmentRepository.createAppointment(updatedData);
+      // Add appointment to user's medic  al record
+      await medicalRecordRepository.addAppointment(reqUser.id, {
         appointment_time: data.dateTime,
         appointment_id: appointment._id,
       });
 
       // Add appointment to doctor's schedule
-      await doctorRepository.addAppointment(data.doctor, {
+      await doctorRepository.addAppointment(data.doctorId, {
         appointment_time: data.dateTime,
         appointment_id: appointment._id,
       });
 
       return appointment;
-    } else {
+    } catch(error) {
       throw new JsonedResponseError(
-        "youre not allowed to make a reservation for other patients"
+        error.message,
+        500
       );
     }
   }
