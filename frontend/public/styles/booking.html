@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+      /* --- Main Section Styling --- */
+/* --- Main Section Styling --- */
+.appointments-section {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+    background: #f0f8ff; /* Light blue background */
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 139, 0.2); /* Soft shadow */
+}
+
+/* --- Header Styling --- */
+.appointments-section h2 {
+    font-size: 24px;
+    color: #004080;
+    margin-bottom: 20px;
+}
+
+/* --- Form Controls Styling --- */
+.appointments-section label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #004080;
+    display: block;
+    margin-top: 15px;
+}
+
+/* --- Dropdown Styling --- */
+.appointments-section select {
+    width: 80%;
+    padding: 8px;
+    font-size: 14px;
+    border: 2px solid #004080;
+    border-radius: 5px;
+    background-color: white;
+    color: #004080;
+    margin-bottom: 10px;
+}
+
+/* --- Search Button Styling --- */
+#search-for-appointments-btn {
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #004080; /* Dark blue */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-top: 15px;
+}
+
+/* Hover Effect */
+#search-for-appointments-btn:hover {
+    background-color: #003366;
+    box-shadow: 0px 4px 6px rgba(0, 0, 139, 0.3);
+}
+
+/* Active Click Effect */
+#search-for-appointments-btn:active {
+    transform: scale(0.95);
+    background-color: #002244;
+}
+
+/* --- Table Styling --- */
+.appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Table Head */
+.appointments-table thead {
+    background-color: white;
+    color: #004080;
+}
+
+/* Table Headers */
+.appointments-table th {
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #004080;
+}
+
+/* Table Row Styling */
+.appointments-table tbody tr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 12px;
+    border-top: 2px solid #004080; /* Added border on top */
+    border-bottom: 2px solid #004080; /* Border remains at bottom */
+    box-shadow: 2px 2px 8px rgba(0, 0, 139, 0.2);
+    background-color: #f9f9f9;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Hover effect for rows */
+.appointments-table tbody tr:hover {
+    background-color: #e6f0ff;
+    transform: scale(1.05); /* Makes the row slightly bigger on hover */
+    box-shadow: 4px 4px 12px rgba(0, 0, 139, 0.3);
+}
+
+/* Table Data */
+.appointments-table td {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    font-size: 16px;
+    color: #333;
+}
+
+/* --- Button Styling inside Table --- */
+.appointments-table button {
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    background-color: #004080; /* Dark blue */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Button Hover Effect */
+.appointments-table button:hover {
+    background-color: #003366; /* Slightly darker blue */
+    box-shadow: 0px 4px 6px rgba(0, 0, 139, 0.3);
+}
+
+/* Button Active Click Effect */
+.appointments-table button:active {
+    transform: scale(0.95);
+    background-color: #002244;
+}
+
+
+    </style>
+</head>
+<body>
+
+    <section class="appointments-section">
+        <h2>Appointment Booking</h2>
+    
+        <label for="Expertise">Select Expertise:</label>
+        <select id="Expertise">
+            <option value="">All Expertise</option>
+        </select>
+    
+        <label for="location"> Select Closest Location:  </label>
+        <select id="location">
+          <option value="">Locations</option>
+        </select>
+    
+        <button id="search-for-appointments-btn">Search</button>
+    
+        <table class="appointments-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Doctor</th>
+                    <th>Expertise</th>
+                    <th>Location</th>
+                    <th>Appointments</th>
+                </tr>
+                <tr>
+                    <td>03/03/2025</td>
+                <td>Jhon Doe</td>
+                <td>Cardiology</td>
+                <td>Haifa</td>
+                <td><button id=choose-doc-butoon>choose doctor</button></td>
+                </tr>
+                <tr>
+                    <td>03/03/2025</td>
+                <td>Jhon Doe</td>
+                <td>Cardiology</td>
+                <td>Haifa</td>
+                <td><button id=choose-doc-butoon>choose doctor</button></td>
+                </tr>
+                <tr>
+                    <td>03/03/2025</td>
+                <td>Jhon Doe</td>
+                <td>Cardiology</td>
+                <td>Haifa</td>
+                <td><button id=choose-doc-butoon>choose doctor</button></td>
+                </tr>
+              
+
+            </thead>
+            <tbody id="appointments-table-body">
+            </tbody>
+        </table>
+    </section>
+
+
+    <section id="doctor-appointment-section" class="appointments-section">
+        <h2 id="doctor-name-title">Doctor's Name</h2>
+    
+        <!-- Main container for doctor info & appointments -->
+        <div id="doctorMainContainer">
+            <!-- Appointments will be dynamically inserted here -->
+        </div>
+    </section>
+    
+    
+</body>
+
+</html>

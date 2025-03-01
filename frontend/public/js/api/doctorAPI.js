@@ -8,6 +8,7 @@ export async function getDoctors() {
 
 export async function getDoctorByExperties(expertiseId) {
   try {
+    
     const response = await axiosInstance.get(`/protected/doctor/expertise/${expertiseId}`, {
       withCredentials: true,
     });
