@@ -1,4 +1,4 @@
-import { setAccessToken } from "../../helpers/accessTokenManager.js";
+import { setAccessToken } from "/js/helpers/accessTokenManager.js";
 import axiosInstance from "./index.js";
 
 export async function login(credentials) {

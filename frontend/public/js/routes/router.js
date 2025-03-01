@@ -44,12 +44,12 @@ export const routes = [
   {
     pattern: "/book-appointment",
     loader: () => import("/js/views/userView/appointmentsBooking.js"),
-    // styles: [
-    //   {
-    //     href: "/styles/about.css",
-    //     id: "aboutStyles"
-    //   },
-    // ],
+    styles: [
+      {
+        href: "/styles/bookAppointment.css",
+        id: "aboutStyles"
+      },
+    ],
   },
   {
     pattern: "/faq",

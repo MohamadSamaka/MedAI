@@ -16,14 +16,18 @@ export async function getUserFutureAppointments(userId) {
   }
 }
 
-export async function createAppintment(appointment) {
+export async function createAppintment(appointmentData) {
   try {
-    const response = await axiosInstance.post("/protected/appointment/", {
-      withCredentials: true,
-    });
+    const response = await axiosInstance.post(
+      "/protected/appointment/",
+      appointmentData,
+      {
+        withCredentials: true,
+      }
+    );
     return response;
   } catch (error) {
-    console.log("error: ", error);
+    console.log(error);
     // Rethrow the error to be caught by a higher-level error handler
     throw new Error(
       error.response?.data?.message ||
