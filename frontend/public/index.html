@@ -1,85 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>My Advanced Web Page</title>
-  <link id="indexStyles" rel="stylesheet" href="./styles/index.css">
-  <link
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Advanced Web Page</title>
+    <link id="indexStyles" rel="stylesheet" href="/styles/index.css" />
+    <link
       id="iconsStyles"
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     />
-</head>
-<body>
-  <header id="header">
-    <div class="second-topbar" id="second-topbar">
-
-      <div class="second-topbar">
-        <div class="center">
-          <a href="/" data-link>
-            <button class="second-buttons">Home</button></a
-          >
-          <p class="line-sep">|</p>
-          <a href="/about" data-link><button>About</button></a>
-          <p class="line-sep">|</p>
-          <a href="/faq" data-link><button>FAQ</button></a>
-          <p class="line-sep">|</p>
-          <a href="/services" data-link><button>Services</button></a>
-          <p class="line-sep">|</p>
-          <a href="/chatbot" data-link><button>Chatbot</button></a>
-          <p class="line-sep">|</p>
-          <a href="/contact" data-link><button>Contact</button></a>
+  </head>
+  <body>
+    <header id="header">
+      <div class="topbar">
+        <div class="topbar-center">
+          <a href="/" class="rounded btn1" data-link> Home</a>
+          <a href="/about" class="rounded btn1" data-link>About</a>
+          <a href="/faq" class="rounded btn1" data-link>FAQ</a>
+          <a href="/services" class="rounded btn1" data-link>Services</a>
+          <a href="/chatbot" class="rounded btn1" data-link>Chatbot</a>
+          <a href="/contact" class="rounded btn1" data-link>Contact</a>
+        </div>
+        <div class="topbar-right">
+          <a id="go-to-admin-dashboard-btn" data-link></a>
+          <a id="login-state-btn" data-link></a>
+          <div id="line-col-small"></div>
+          <a href="/"
+            ><img src="/assets/imgs/logo_2.png" alt="Logo" class="logo"
+          /></a>
         </div>
       </div>
-    </div>
+      <div class="line-temp"></div>
+    </header>
 
-  </header>
+    <main id="root">
+      <p>Loading content...</p>
+    </main>
 
-  <main id="root">
-    <p>Loading content...</p>
-  </main>
+    <footer id="footer">
+      <div class="footer">
+        <div class="bottom-container">
+          <!-- Reservations Section -->
+          <div class="section">
+            <h3>Appointments</h3>
+            <p>Please call <strong>(887) 654-3210</strong>.</p>
+          </div>
 
-  <footer id="footer">
-    <div class="footer">
-      <div class="bottom-container">
-        <!-- Reservations Section -->
-        <div class="section">
-          <h3>Appointments</h3>
-          <p>Please call <strong>(887) 654-3210</strong>.</p>
+          <!-- Address Section -->
+          <div class="section">
+            <h3>Address</h3>
+            <p>4321 Israel St,</p>
+            <p>Haifa, PR 12345</p>
+          </div>
+
+          <!-- Opening Hours Section -->
+          <div class="section">
+            <h3>Opening Hours</h3>
+            <p>Fri-Sat: 5:00 PM - 11:00 PM</p>
+            <p>Sun-Thurs: 11:00 AM - 11:00 PM</p>
+          </div>
         </div>
 
-        <!-- Address Section -->
-        <div class="section">
-          <h3>Address</h3>
-          <p>4321 Israel St,</p>
-          <p>Haifa, PR 12345</p>
-        </div>
+        <!-- Footer -->
+        <div class="footer-bottom">
+          <!-- Left side: Text and Reserved -->
+          <div class="footer-bottom-left">
+            <p>&copy; 2025 MedicAI. All rights reserved.</p>
+          </div>
 
-        <!-- Opening Hours Section -->
-        <div class="section">
-          <h3>Opening Hours</h3>
-          <p>Fri-Sat: 5:00 PM - 11:00 PM</p>
-          <p>Sun-Thurs: 11:00 AM - 11:00 PM</p>
+          <!-- Right side: Social Media Icons -->
+          <div class="footer-bottom-right">
+            <i class="fab fa-facebook facebook"></i>
+            <i class="fab fa-instagram instagram"></i>
+            <i class="fab fa-twitter twitter"></i>
+          </div>
         </div>
       </div>
+    </footer>
 
-      <!-- Footer -->
-      <div class="footer-bottom">
-        <!-- Left side: Text and Reserved -->
-        <div class="footer-bottom-left">
-          <p>&copy; 2025 MedicAI. All rights reserved.</p>
-        </div>
-
-        <!-- Right side: Social Media Icons -->
-        <div class="footer-bottom-right">
-          <i class="fab fa-facebook facebook"></i>
-          <i class="fab fa-instagram instagram"></i>
-          <i class="fab fa-twitter twitter"></i>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script type="module" src="/js/app.js"></script>
-</body>
+    <script type="module" src="/js/app.js"></script>
+  </body>
 </html>

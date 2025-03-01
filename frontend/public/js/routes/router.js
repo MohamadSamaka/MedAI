@@ -1,4 +1,6 @@
 import { unloadStyles } from "/js/helpers/stylesManager.js";
+import { hasAccessToken } from '/js/helpers/accessTokenManager.js';
+import { logoutUser, getUserRole } from '/js/helpers/userManager.js';
 
 export const routes = [
   {
@@ -77,7 +79,7 @@ export const routes = [
     styles: [
       {
         href: "/styles/admin_dashboard.css",
-        id: "admin_dashboardStyles", //the name of the id doesn't matter, what's important is that it has to be unique
+        id: "admin_dashboardStyles", // the name of the id doesn't matter, what's important is that it has to be unique
       },
     ],
   },
@@ -90,7 +92,7 @@ export const routes = [
         styles: [
           {
             href: "/styles/ceatingUserDashboard.css",
-            id: "ceatingUserDashboard", //the name of the id doesn't matter, what's important is that it has to be unique
+            id: "ceatingUserDashboard", // the name of the id doesn't matter, what's important is that it has to be unique
           },
         ],
       },
@@ -98,26 +100,24 @@ export const routes = [
     styles: [
       {
         href: "/styles/admin_dashboard.css",
-        id: "admin_dashboardStyles", //the name of the id doesn't matter, what's important is that it has to be unique
+        id: "admin_dashboardStyles", // the name of the id doesn't matter, what's important is that it has to be unique
       },
       {
         loader: () => import("/js/views/adminView/creatingUser.js"),
         styles: {
           href: "/styles/ceatingUserDashboard.css",
-          id: "ceatingUserDashboard", //the name of the id doesn't matter, what's important is that it has to be unique
+          id: "ceatingUserDashboard", // the name of the id doesn't matter, what's important is that it has to be unique
         },
       },
     ],
   },
-
-
   {
     pattern: "/contact",
     loader: () => import("/js/views/contact.js"),
     styles: [
       {
         href: "/styles/contact.css",
-        id: "contactStyles", //the name of the id doesn't matter, what's important is that it has to be unique
+        id: "contactStyles", // the name of the id doesn't matter, what's important is that it has to be unique
       },
     ],
   },
@@ -127,7 +127,7 @@ export const routes = [
     styles: [
       {
         href: "/styles/login.css",
-        id: "loginStyles", //the name of the id doesn't matter, what's important is that it has to be unique
+        id: "loginStyles", // the name of the id doesn't matter, what's important is that it has to be unique
       },
     ],
   },
@@ -138,40 +138,35 @@ export const routes = [
 ];
 
 function matchRoute(pattern, pathname) {
-  // If pattern is exactly "*" return an empty params object.
+  // If pattern is exactly "*", return an empty params object
   if (pattern === "*") return {};
 
-  // Split both pattern and pathname into segments.
   const patternSegments = pattern.split("/").filter(Boolean);
   const pathSegments = pathname.split("/").filter(Boolean);
 
-  // Check if the pattern ends with a wildcard segment "*".
+  // Check for wildcard in pattern
   const hasWildcard = patternSegments[patternSegments.length - 1] === "*";
 
-  // If there is no wildcard, the number of segments must match exactly.
+  // If no wildcard, segments must match exactly
   if (!hasWildcard && patternSegments.length !== pathSegments.length) {
     return null;
   }
 
-  // If there is a wildcard, the pattern (without the wildcard) must not have more segments than the path.
+  // If has wildcard, pattern (minus the wildcard) cannot exceed path length
   if (hasWildcard && patternSegments.length - 1 > pathSegments.length) {
     return null;
   }
 
   const params = {};
-  // Iterate over each segment in the pattern.
   for (let i = 0; i < patternSegments.length; i++) {
     const patSeg = patternSegments[i];
     if (patSeg === "*") {
-      // Capture all remaining segments in a "wildcard" parameter.
       params["wildcard"] = pathSegments.slice(i);
       break;
     } else if (patSeg.startsWith(":")) {
-      // Extract the parameter name and assign the corresponding path segment.
       const paramName = patSeg.slice(1);
       params[paramName] = pathSegments[i];
     } else if (patSeg !== pathSegments[i]) {
-      // A static segment doesn't match.
       return null;
     }
   }
@@ -194,7 +189,7 @@ function resolveRoute(pathname) {
   const fallback = routes.find((r) => r.pattern === "*");
   return {
     loader: fallback.loader,
-    subloader: route.subLoader || null,
+    subloader: fallback.subLoader || null,
     params: {},
     styles: fallback.styles || [],
   };
@@ -206,33 +201,29 @@ export async function initRouter() {
 }
 
 export async function renderView(route, renderContainer = "root") {
-  // Check if route is an object or a string
-
+  const userRole = getUserRole()?.toLowerCase() || null;
+  if (route.startsWith('/admin') && (userRole !== "admin" && userRole !== "doctor")) {
+    route = !hasAccessToken() ? "/login" : "/";
+  }
   const resolvedRoute = typeof route === "object" ? route : resolveRoute(route);
-  // Destructure the resolvedRoute object
   const { loader, subloader = null, params, styles } = resolvedRoute;
+
   const { render, init } = await loader();
   const markup = render();
   const rootDiv = document.getElementById(renderContainer);
   rootDiv.innerHTML = markup;
-  // Ensure the DOM is updated before calling init.
+
+  // Ensure DOM updated before init
   requestAnimationFrame(() => {
-    // if(subloader){
-    //   const subMarkup = render();
-    //   const subContainer = document.getElementById(RendercContainer);
-    //   subContainer.innerHTML = markup;
-    // }
     if (typeof init === "function") {
       init(styles, subloader, params);
+      updateLoginButton();
     }
   });
 }
 
 export function setLinksAction(event) {
   const link = event.target.closest("a[data-link]");
-  // console.log("linkk: ", link)
-  // alert("hiii")
-  // alert("its been called")
   if (link) {
     const navigationElementBtn = event.target.closest("a[data-render-in]");
     const dataRenderInValue = navigationElementBtn
@@ -240,7 +231,6 @@ export function setLinksAction(event) {
       : "root";
     event.preventDefault();
     const href = link.getAttribute("href");
-    console.log(dataRenderInValue);
     if (href) {
       navigateTo(href, dataRenderInValue);
     } else {
@@ -248,13 +238,67 @@ export function setLinksAction(event) {
     }
   }
 }
-// Intercept clicks on links with the data-link attribute
-document.addEventListener("click", (event) => setLinksAction(event));
 
 export function navigateTo(path, rendercContainer = "root") {
-  // Update the browser's URL without reloading the page.
   window.history.pushState({}, "", window.location.origin + path);
-  // Render the view for the new path.
   renderView(path, rendercContainer);
   unloadStyles(resolveRoute(path).styles);
 }
+
+function updateLoginButton() {
+  const loginStateBtn = document.querySelector("#login-state-btn");
+  const goToDashBoardBtn = document.querySelector("#go-to-admin-dashboard-btn");
+
+  console.log("hasAccessToken() ->", hasAccessToken());
+
+  if (hasAccessToken()) {
+    // Log user role to confirm correct data
+    const role = getUserRole();
+    const userRole = role ? role.toLowerCase() : null;
+    console.log("getUserRole() ->", role, "| toLowerCase ->", userRole);
+
+    loginStateBtn.textContent = "Logout";
+    loginStateBtn.removeAttribute("href");
+
+    // Remove old "click" listeners to prevent duplication
+    loginStateBtn.removeEventListener("click", handleLogout);
+    loginStateBtn.addEventListener("click", handleLogout);
+
+    // Check if admin or doctor, show "Go to Dashboard"
+    if (userRole === "admin" || userRole === "doctor") {
+      if (goToDashBoardBtn) {
+        // Make the dashboard button visible with text
+        goToDashBoardBtn.textContent = "Dashboard"; 
+        goToDashBoardBtn.style.display = "inline-block";
+        goToDashBoardBtn.href = "/admin/dashboard";
+        console.log("Dashboard button is made visible");
+      }
+    } else {
+      // Hide if other role
+      if (goToDashBoardBtn) {
+        goToDashBoardBtn.style.display = "none";
+        console.log("Dashboard button hidden - not an admin/doctor");
+      }
+    }
+  } else {
+    console.log("No token found - user not logged in");
+    loginStateBtn.textContent = "Login";
+    loginStateBtn.href = "/login";
+
+    // Remove old event listeners just in case
+    loginStateBtn.removeEventListener("click", handleLogout);
+
+    if (goToDashBoardBtn) {
+      // Hide the dashboard link if it exists
+      goToDashBoardBtn.style.display = "none";
+    }
+  }
+}
+
+function handleLogout() {
+  logoutUser();
+  updateLoginButton();
+}
+
+// Intercept clicks on links with the data-link attribute
+document.addEventListener("click", (event) => setLinksAction(event));
