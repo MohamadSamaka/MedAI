@@ -1,4 +1,5 @@
 const Doctor = require("../models/doctorModel");
+const { MongoClient, ObjectId } = require('mongodb');
 const JsonedResponseError = require("../errors/JsonedResponseError");
 
 class DoctorRepository {
@@ -19,8 +20,8 @@ class DoctorRepository {
     return await Doctor.find();
   }
 
-  async getDoctorsByExpertise(expertise) {
-    return await Doctor.find({ experties: expertise });
+  async getDoctorsByExpertise(expertiseId) {
+    return await Doctor.find({ expertise: expertiseId }).populate("id");
   }
 
   async updateDoctor(id, data) {
@@ -67,6 +68,7 @@ class DoctorRepository {
     );
   }
   async getAvailableAppointments(doctorId) {
+    console.log("doctorId", doctorId)
     const doctor = await Doctor.findById(doctorId).select(
       "workingTime appointments"
     );

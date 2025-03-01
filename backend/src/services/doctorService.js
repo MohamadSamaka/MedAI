@@ -1,7 +1,7 @@
 const doctorRepository = require("../repositories/doctorRepository");
 const appointmentRepository = require("../repositories/appointmentRepository");
 const appointmentService = require("../services/appointmentService");
-
+const JsonedResponseError = require("../errors/JsonedResponseError");
 class DoctorService {
   async createDoctor(data, userReq) {
     try {
@@ -18,7 +18,7 @@ class DoctorService {
         return await doctorRepository.createDoctor(data);
       }
     } catch (error) {
-      return res.status(500).json({ error: err.message });
+      throw new JsonedResponseError(err.message, 500)
     }
   }
 
@@ -31,7 +31,22 @@ class DoctorService {
   }
 
   async getDoctorsByExpertise(expertise) {
-    return await doctorRepository.getDoctorsByExpertise(expertise);
+    try{
+      const docsByExpertiseList = await doctorRepository.getDoctorsByExpertise(expertise)
+      console.log(docsByExpertiseList)
+      const updatedDoctors = docsByExpertiseList.map(doc => {
+        const plainDoc = doc.toObject(); // Convert Mongoose document to plain JavaScript object
+        plainDoc.docPersonalInfo = plainDoc.id;
+        delete plainDoc.id;
+        return plainDoc;
+      });
+      return updatedDoctors;
+      // return docsByExpertiseList
+
+    }catch(error){
+      console.log(error)
+      throw new JsonedResponseError(error.message, 500)
+    }
   }
 
   async updateDoctor(id, data) {

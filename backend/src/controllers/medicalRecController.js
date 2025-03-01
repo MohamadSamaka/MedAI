@@ -8,25 +8,25 @@ const medicalRecService = require("../services/medicalRecService");
 
 class MedicalRecController {
   
-  async getMedicalRecord(req, res) {
+  async getMedicalRecord(req, res, next) {
     try {
       const record = await medicalRecordService.getMedicalRecordByUserId(req.params.userId);
       res.json(record);
     } catch (error) {
-      res.status(500).json({ message: "Error fetching medical record" });
+      next(error)
     }
   }
 
-  async cancelAppointment(req, res) {
+  async cancelAppointment(req, res, next) {
     try {
       await medicalRecordService.cancelAppointment(req.params.appointmentId);
       res.json({ message: "Appointment successfully canceled" });
     } catch (error) {
-      res.status(500).json({ message: "Error canceling appointment", error: error.message });
+      next(error)
     }
   }
 
-  async getPrescriptions(req, res) {
+  async getPrescriptions(req, res, next) {
     try {
       const userIdObj = req.user.id;
       const prescriptions = await medicalRecService.getPrescriptions(userIdObj);
@@ -35,14 +35,11 @@ class MedicalRecController {
         data: prescriptions,
       });
     } catch (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.message,
-      });
+      next(error)
     }
   }
 
-  async getAppointment(req, res){
+  async getAppointment(req, res, next){
     try {
       const userIdObj = req.user.id;
       const prescriptions = await medicalRecService.addAppointment(userIdObj);
@@ -51,10 +48,7 @@ class MedicalRecController {
         data: prescriptions,
       });
     } catch (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.message,
-      });
+      next(error)
     }
   }
 

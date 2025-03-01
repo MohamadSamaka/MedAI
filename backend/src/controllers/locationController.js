@@ -33,16 +33,14 @@ class LocationController {
   async getClosestLocations(req, res, next) {
     try {
         const locationId = req.params.locationId;
-
         // Find the reference location by ID
-        const location = await LocationRepository.findLocationByName({ _id: locationId });
-
+        const location = await LocationRepository.findById(locationId);
         if (!location) {
             return res.status(404).json({ error: "Location not found" });
         }
 
         // Get sorted closest locations' IDs
-        const sortedLocationIds = await LocationRepository.getClosestLocationIds(location.locationName);
+        const sortedLocationIds = await LocationService.getClosestLocationIds(location.locationName);
 
         res.json({ sortedLocationIds });
     } catch (error) {
