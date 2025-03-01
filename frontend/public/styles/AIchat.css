@@ -228,18 +228,8 @@ main#root {
   background: #005bb5;
 }
 
-/* #home-icon {
-  background: #057715;
-  margin-right: 15px;
-  font-size: 30px;
-  border: none;
-  outline: none;
-} */
 
-#home-icon {
-  /* position: fixed;
-  top: 20px;
-  left: 220px; */
+#go-back-home {
   background: #3a8cbb;
   border: none;
   border-radius: 50%;
@@ -251,7 +241,7 @@ main#root {
   font-size: 20px;
 }
 
-#home-icon:hover {
+#go-back-home:hover {
   background: #125777;
 }
 

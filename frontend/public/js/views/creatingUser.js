@@ -59,7 +59,7 @@ export function render() {
     `;
 }
 
-export async function init(styles, params) {
+export async function init(styles, subloader, params) {
   loadStyles(styles);
 
   async function getRole() {

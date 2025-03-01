@@ -1,5 +1,4 @@
 import { loadStyles } from "../helpers/stylesManager.js"
-import { getUsers } from "../api/userAPI.js"
 
 export function render() {
   return `
@@ -163,7 +162,7 @@ export function render() {
 }
 
 // This function attaches event listeners and any view-specific logic.
-export function init(styles, params) {
+export function init(styles, subloader, params) {
   loadStyles(styles)
   const faqItems = document.querySelectorAll(".faq-item");
   faqItems.forEach((item) => {

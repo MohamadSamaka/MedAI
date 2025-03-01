@@ -50,6 +50,6 @@ function renderUserProfile(user) {
 fetchUserProfile();
 
 
-export function init(styles, params) {
+export function init(styles, subloader, params) {
   loadStyles(styles);
 }

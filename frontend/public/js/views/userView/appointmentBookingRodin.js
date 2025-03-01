@@ -1,4 +1,6 @@
 import { loadStyles } from "/js/helpers/stylesManager.js";
+import{} from "/js/api/"
+
 
 export function render() {
   return `
@@ -38,7 +40,7 @@ export function render() {
     `;
 }
 
-export function init(styles, params) {
+export function init(styles, subloader, params) {
   console.log(params);
   loadStyles(styles);
   /***********************

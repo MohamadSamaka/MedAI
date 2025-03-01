@@ -7,7 +7,7 @@ export async function getUsers() {
 }
 
 export async function getUserById(userId) {
-  return await axiosInstance.get("/user/:id", userId, {
+  return await axiosInstance.get(`/user/${userId}`, userId, {
     withCredentials: true,
   });
 }
@@ -15,7 +15,7 @@ export async function getUserById(userId) {
 
 export async function createUser(userData) {
   try {
-    const response = await axiosInstance.post("/admin/user", userData, {
+    const response = await axiosInstance.post(`/admin/user`, userData, {
       withCredentials: true,
     });
     return response.data
@@ -43,7 +43,17 @@ export async function updateUser(userId, userData) {
 }
 
 export async function deleteUser(userId) {
-  return await axiosInstance.delete(`/admin/user/${userId}`, {
-    withCredentials: true,
-  });
+  try {
+    const response = await axiosInstance.delete(`/admin/user/${userId}`, {
+      withCredentials: true,
+    });
+    return response
+  } catch (error) {
+    console.log("error: ", error)
+    // Rethrow the error to be caught by a higher-level error handler
+    throw new Error(
+      error.response?.data?.message || "An error occurred during fetching location"
+    );
+  }
+  
 }

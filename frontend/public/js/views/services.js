@@ -139,6 +139,6 @@ export function render() {
 }
 
 // This function attaches event listeners and any view-specific logic.
-export function init(styles, params) {
+export function init(styles, subloader, params) {
   loadStyles(styles);
 }

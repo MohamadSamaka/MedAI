@@ -1,3 +1,5 @@
+import { unloadStyles } from "/js/helpers/stylesManager.js";
+
 export const routes = [
   {
     pattern: "/",
@@ -5,7 +7,7 @@ export const routes = [
     styles: [
       {
         href: "/styles/home.css",
-        id: "homeStyles"
+        id: "homeStyles",
       },
     ],
   },
@@ -15,7 +17,7 @@ export const routes = [
     styles: [
       {
         href: "/styles/about.css",
-        id: "aboutStyles"
+        id: "aboutStyles",
       },
     ],
   },
@@ -34,8 +36,8 @@ export const routes = [
     loader: () => import("/js/views/userView/appointmentBookingRodin.js"),
     styles: [
       {
-        href: "/styles/about.css",
-        id: "appointmentRodin"
+        href: "/styles/appointmentRodin.css",
+        id: "appointmentRodin",
       },
     ],
   },
@@ -55,7 +57,7 @@ export const routes = [
     styles: [
       {
         href: "/styles/faq.css",
-        id: "faqStyles"
+        id: "faqStyles",
       },
     ],
   },
@@ -65,7 +67,7 @@ export const routes = [
     styles: [
       {
         href: "/styles/AIChat.css",
-        id: "AIChatStyles"
+        id: "AIChatStyles",
       },
     ],
   },
@@ -75,22 +77,8 @@ export const routes = [
     styles: [
       {
         href: "/styles/services.css",
-        id: "servicesStyles"
+        id: "servicesStyles",
       },
-    ],
-  },
-  {
-    pattern: "/admin/dashboard/user",
-    loader: () => import("/js/views/adminView/creatingUser.js"),
-    styles: [
-      {
-        href: "/styles/ceatingUserDashboard.css",
-        id: "ceatingUserDashboard", //the name of the id doesn't matter, what's important is that it has to be unique
-      },
-      // {
-      //   href: "/styles/index.css",
-      //   id: "iasdasd", //the name of the id doesn't matter, what's important is that it has to be unique
-      // },
     ],
   },
   {
@@ -101,12 +89,56 @@ export const routes = [
         href: "/styles/admin_dashboard.css",
         id: "admin_dashboardStyles", //the name of the id doesn't matter, what's important is that it has to be unique
       },
-      // {
-      //   href: "/styles/index.css",
-      //   id: "iasdasd", //the name of the id doesn't matter, what's important is that it has to be unique
-      // },
     ],
   },
+  {
+    pattern: "/admin/dashboard/:subRoute",
+    loader: () => import("/js/views/adminView/admin_dashboard.js"),
+    subLoader: {
+      usersDashboard: {
+        loader: () => import("/js/views/adminView/creatingUser.js"),
+        styles: [
+          {
+            href: "/styles/ceatingUserDashboard.css",
+            id: "ceatingUserDashboard", //the name of the id doesn't matter, what's important is that it has to be unique
+          },
+        ],
+      },
+    },
+    styles: [
+      {
+        href: "/styles/admin_dashboard.css",
+        id: "admin_dashboardStyles", //the name of the id doesn't matter, what's important is that it has to be unique
+      },
+      {
+        loader: () => import("/js/views/adminView/creatingUser.js"),
+        styles: {
+          href: "/styles/ceatingUserDashboard.css",
+          id: "ceatingUserDashboard", //the name of the id doesn't matter, what's important is that it has to be unique
+        },
+      },
+    ],
+  },
+
+  // {
+  //   pattern: "/admin/dashboard/user",
+  //   loader: () => import("/js/views/adminView/creatingUser.js"),
+  //   styles: [
+  //     {
+  //       href: "/styles/admin_dashboard.css",
+  //       id: "admin_dashboardStyles", //the name of the id doesn't matter, what's important is that it has to be unique
+  //     },
+  //     {
+  //       href: "/styles/ceatingUserDashboard.css",
+  //       id: "ceatingUserDashboard", //the name of the id doesn't matter, what's important is that it has to be unique
+  //     },
+  //     // {
+  //     //   href: "/styles/index.css",
+  //     //   id: "iasdasd", //the name of the id doesn't matter, what's important is that it has to be unique
+  //     // },
+  //   ],
+  // },
+
   {
     pattern: "/users/:userId",
     loader: () => import("/js/views/userDashboard.js"),
@@ -184,6 +216,7 @@ function resolveRoute(pathname) {
     if (params !== null) {
       return {
         loader: route.loader,
+        subloader: route.subLoader || null,
         styles: route.styles || [],
         params,
       };
@@ -193,6 +226,7 @@ function resolveRoute(pathname) {
   const fallback = routes.find((r) => r.pattern === "*");
   return {
     loader: fallback.loader,
+    subloader: route.subLoader || null,
     params: {},
     styles: fallback.styles || [],
   };
@@ -203,39 +237,56 @@ export async function initRouter() {
   await renderView(path);
 }
 
-// async function renderView(path) {
-//   const rootDiv = document.getElementById('root');
-//   const content = await getViewContent(path);
-//   rootDiv.innerHTML = content;
-// }
+export async function renderView(route, renderContainer = "root") {
+  // Check if route is an object or a string
 
-export async function renderView(path) {
-  const { loader, params, styles } = resolveRoute(path);
+  const resolvedRoute = typeof route === "object" ? route : resolveRoute(route);
+  // Destructure the resolvedRoute object
+  const { loader, subloader = null, params, styles } = resolvedRoute;
   const { render, init } = await loader();
   const markup = render();
-  const rootDiv = document.getElementById("root");
+  const rootDiv = document.getElementById(renderContainer);
   rootDiv.innerHTML = markup;
   // Ensure the DOM is updated before calling init.
   requestAnimationFrame(() => {
+    // if(subloader){
+    //   const subMarkup = render();
+    //   const subContainer = document.getElementById(RendercContainer);
+    //   subContainer.innerHTML = markup;
+    // }
     if (typeof init === "function") {
-      init(styles, params);
+      init(styles, subloader, params);
     }
   });
 }
 
-// Intercept clicks on links with the data-link attribute
-document.addEventListener("click", (event) => {
+export function setLinksAction(event) {
   const link = event.target.closest("a[data-link]");
+  // console.log("linkk: ", link)
+  // alert("hiii")
+  // alert("its been called")
   if (link) {
+    const navigationElementBtn = event.target.closest("a[data-render-in]");
+    const dataRenderInValue = navigationElementBtn
+      ? navigationElementBtn.getAttribute("data-render-in")
+      : "root";
     event.preventDefault();
     const href = link.getAttribute("href");
-    navigateTo(href);
+    console.log(dataRenderInValue);
+    if (href) {
+      navigateTo(href, dataRenderInValue);
+    } else {
+      console.error("Link does not have a valid href attribute.");
+    }
   }
-});
+}
+// Intercept clicks on links with the data-link attribute
+document.addEventListener("click", (event) => setLinksAction(event));
 
-export function navigateTo(path) {
+export function navigateTo(path, rendercContainer = "root") {
   // Update the browser's URL without reloading the page.
   window.history.pushState({}, "", window.location.origin + path);
   // Render the view for the new path.
-  renderView(path);
+  renderView(path, rendercContainer);
+  unloadStyles(resolveRoute(path).styles);
 }
