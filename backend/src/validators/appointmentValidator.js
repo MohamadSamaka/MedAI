@@ -5,13 +5,9 @@ const createAppointmentSchema = Joi.object({
   experties: Joi.string().min(1).max(100).required(),
   location: Joi.string().min(1).max(100).required(),
   // Accept any string for doctor field without a pattern check
-  doctor: Joi.string().optional(),
+  doctorId: Joi.string().optional(),
   // Accept an array of strings for doctors without pattern validation
-  doctors: Joi.array().items(Joi.string()).optional(),
   dateTime: Joi.date().iso().required(),
-  
-  // Accept any string for patient, allowing null as well
-  patient: Joi.string().optional().allow(null),
 });
 
 /*

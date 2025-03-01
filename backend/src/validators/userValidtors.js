@@ -1,19 +1,18 @@
 const Joi = require("joi");
 const JsonedResponseError = require("../errors/JsonedResponseError");
 
+// Reuse your existing sub-schemas for doctor data
 const workingTimeSchema = Joi.array().items(
   Joi.object({
-    day: Joi.string().valid(
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
-    ).required(),
-    start_time: Joi.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).required(),
-    end_time: Joi.string().regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).required()
+    day: Joi.string()
+      .valid("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+      .required(),
+    start_time: Joi.string()
+      .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      .required(),
+    end_time: Joi.string()
+      .regex(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      .required()
   })
 );
 
@@ -24,7 +23,7 @@ const appointmentSchema = Joi.array().items(
   })
 );
 
-// Doctor validation schema for user creation (all fields required)
+// Doctor validation schema
 const doctorCreationSchema = Joi.object({
   expertise: Joi.string().required(),
   location: Joi.string().required(),
@@ -32,7 +31,6 @@ const doctorCreationSchema = Joi.object({
   appointments: appointmentSchema.optional()
 }).optional();
 
-// Doctor validation schema for user update (all fields optional)
 const doctorUpdateSchema = Joi.object({
   expertise: Joi.string().optional(),
   location: Joi.string().required(),
@@ -40,37 +38,76 @@ const doctorUpdateSchema = Joi.object({
   appointments: appointmentSchema.optional()
 }).optional();
 
+/**
+ * validateUserCreation
+ * This matches a request shape like:
+ *
+ * {
+ *   userData: {
+ *     Fname: '...',
+ *     Lname: '...',
+ *     idPerson: '...',
+ *     phone: '...',
+ *     email: '...',
+ *     password: '...',
+ *     DateOfBirth: '...',
+ *     address: '...',
+ *     roleId: '...',
+ *     MedicalInfo: {
+ *       diagnosis: [...],
+ *       prescriptions: [...]
+ *     }
+ *   },
+ *   doctorData: {
+ *     expertise: '...',
+ *     location: '...',
+ *     workingTime: [...]
+ *   }
+ * }
+ */
 const validateUserCreation = (data) => {
-  // Convert DateOfBirth in userData from string to Date if needed
+  // If DateOfBirth is a string, convert it to Date
   if (data.userData && typeof data.userData.DateOfBirth === 'string') {
     data.userData.DateOfBirth = new Date(data.userData.DateOfBirth);
   }
-  
+
+  // Updated schema: Move MedicalInfo INSIDE userData
   const schema = Joi.object({
     userData: Joi.object({
-    Fname: Joi.string().min(3).max(30).required(),
-    Lname: Joi.string().min(3).max(30).required(),
-    idPerson: Joi.string().min(8).max(10).required(),
-    phone: Joi.string().length(13).required(),
-    email: Joi.string().email().required(),
-    password: Joi.string().min(6).required(),
-    DateOfBirth: Joi.date().iso().required(),
-    address: Joi.string().required(),
-    roleId: Joi.string().required(),
+      Fname: Joi.string().min(3).max(30).required(),
+      Lname: Joi.string().min(3).max(30).required(),
+      idPerson: Joi.string().min(8).max(10).required(),
+      phone: Joi.string().length(13).required(),
+      email: Joi.string().email().required(),
+      password: Joi.string().min(6).required(),
+      DateOfBirth: Joi.date().iso().required(),
+      address: Joi.string().required(),
+      roleId: Joi.string().required(),
+
+      // Put MedicalInfo inside userData
+      MedicalInfo: Joi.object({
+        diagnosis: Joi.array().items(Joi.string()).required(),
+        prescriptions: Joi.array().items(Joi.string()).required()
+      }).optional() // or required, depending on your needs
     }).required(),
+
+    // doctorData stays separate
     doctorData: doctorCreationSchema
   }).strict();
-  
+
   const { error } = schema.validate(data);
-  if (error) throw new JsonedResponseError(error.details[0].message, 400);
+  if (error) {
+    throw new JsonedResponseError(error.details[0].message, 400);
+  }
 };
 
 const validateUserUpdate = (data) => {
-  // Convert DateOfBirth in userData from string to Date if needed
+  // Convert DateOfBirth if needed
   if (data.userData && typeof data.userData.DateOfBirth === 'string') {
     data.userData.DateOfBirth = new Date(data.userData.DateOfBirth);
   }
-  
+
+  // Similarly, move MedicalInfo inside userData if that’s how your update requests look
   const schema = Joi.object({
     userData: Joi.object({
       _id: Joi.string().required(),
@@ -83,12 +120,21 @@ const validateUserUpdate = (data) => {
       DateOfBirth: Joi.date().iso().optional(),
       address: Joi.string().optional(),
       roleId: Joi.string().optional(),
+
+      // Move MedicalInfo here as well if your update calls do the same
+      MedicalInfo: Joi.object({
+        diagnosis: Joi.array().items(Joi.string()).required(),
+        prescriptions: Joi.array().items(Joi.string()).required()
+      }).optional()
     }).required(),
+
     doctorData: doctorUpdateSchema
   }).strict();
-  
+
   const { error } = schema.validate(data);
-  if (error) throw new JsonedResponseError(error.details[0].message, 400);
+  if (error) {
+    throw new JsonedResponseError(error.details[0].message, 400);
+  }
 };
 
 module.exports = {

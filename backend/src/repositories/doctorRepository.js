@@ -120,8 +120,9 @@ class DoctorRepository {
         ) {
           if (!bookedAppointments.includes(time)) {
             availableSlots.push({
-              date: new Date(time).toISOString().split("T")[0], // YYYY-MM-DD
-              time: new Date(time).toTimeString().split(" ")[0], // HH:mm:ss
+              date: new Date(time).toLocaleDateString("en-GB"), // DD-MM-YYYY
+              time: new Date(time).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }), // HH:MM
+
             });
             slotCount++;
             if (slotCount >= 24) break;

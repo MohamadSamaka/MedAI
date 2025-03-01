@@ -1,13 +1,12 @@
 const medicalRecModel = require("../models/medicalRecordModel");
-const { getAppointmentById } = require("./appointmentRepository");
 
 class MedicalRecRepository {
   async getRecordByUserId(userId) {
-    return await MedicalRecord.findOne({ userId });
+    return await medicalRecModel.findOne({ userId });
   }
 
   async addAppointment(userId, appointment) {
-    return await MedicalRecord.findOneAndUpdate(
+    return await medicalRecModel.findOneAndUpdate(
       { userId: userId },
       { $push: { appointmentId: appointment } },
       { new: true }
@@ -22,11 +21,11 @@ class MedicalRecRepository {
   //
 
   async updateMedicalRecord(id, data) {
-    return await MedicalRecord.findByIdAndUpdate(id, data, { new: true });
+    return await medicalRecModel.findByIdAndUpdate(id, data, { new: true });
   }
   //updating future appointment list
   async removePastAppointments(userId, today) {
-    return await MedicalRecord.findOneAndUpdate(
+    return await medicalRecModel.findOneAndUpdate(
       { userId },
       { $pull: { appointmentId: { appointment_time: { $lt: today } } } },
       { new: true }
@@ -34,7 +33,7 @@ class MedicalRecRepository {
   }
   //for canceling
   async removeAppointment(userId, appointmentId) {
-    return await MedicalRecord.findOneAndUpdate(
+    return await medicalRecModel.findOneAndUpdate(
       { userId },
       {
         $pull: {
