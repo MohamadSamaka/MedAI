@@ -1,8 +1,9 @@
 import { loadStyles } from "/js/helpers/stylesManager.js";
 import { generateRolesOptions } from "/js/helpers/OptionsGenerator.js";
-import { getUsers, deleteUser } from "/js/api/userAPI.js";
+import { getUsers, deleteUser,getUserById ,updateUser} from "/js/api/userAPI.js";
 import { getRoles } from "/js/api/rolesAPI.js";
 import { renderView } from "/js/routes/router.js";
+
 
 let roles;
 let users;
@@ -45,7 +46,11 @@ export function render() {
         </div>
       </div>
     </div>
+    
+    <div  style="display: none" id="edit-card">
 
+
+      </div>
 
     
     <!------------- FOOTER --------------->
@@ -56,6 +61,8 @@ export function render() {
     <script src="../../translator.js"></script>
     `;
 }
+
+
 
 function showUserManagement() {
   const dashboard = document.getElementById("dashboardContent");
@@ -105,7 +112,7 @@ function showUserManagement() {
                     <td class="role-name-column">${rolesMap[user.role]}</td>
                     <td class="email-column">${user.email}</td>
                     <td class="action-buttons">
-                      <button class="edit"">Edit</button>
+                      <button class="edit" id="editUser">Edit</button>
                       <button class="delete" >Delete</button>
                     </td>
                   </tr>
@@ -122,6 +129,49 @@ function showUserManagement() {
   // filterUsers();
 }
 
+
+async function updateUserB(userid) {
+  const index = users.findIndex((u) => u.id === userid);
+   console.log(users[index]);
+  const user=users[index];
+  const editCardDiv = document.getElementById("edit-card");
+  editCardDiv.style.display = "block";
+  editCardDiv.innerHTML = `
+    <h3>Edit User</h3>
+    <label>First Name: <input type="text" id="edit-fname" value="${user.Fname}"></label>
+    <label>Last Name: <input type="text" id="edit-lname" value="${user.Lname}"></label>
+    <label>Email: <input type="email" id="edit-email" value="${user.email}"></label>
+    <label>Phone: <input type="text" id="edit-phone" value="${user.phone}"></label>
+    <label>Role: <select id="edit-role">${generateRolesOptions(roles)}</select></label>
+    <button id="updateUser">Update</button>
+    <button id="cancelUpdate">Cancel</button>
+  `;
+    document.getElementById("updateUser").addEventListener("click", async () => {
+    const id =users[index].id;
+    const idPerson=users[index].idPerson;
+    const Fname = document.getElementById("edit-fname").value;
+    const Lname = document.getElementById("edit-lname").value;
+    const email = document.getElementById("edit-email").value;
+    const phone = document.getElementById("edit-phone").value;
+    const role = document.getElementById("edit-role").value;
+    const updatedUserVar = {idPerson, Fname, Lname, email, phone, role };
+    try {
+      await updateUser(idPerson,updatedUserVar);
+      alert("User updated successfully");
+      console.log(updatedUserVar);
+      showUserManagement();
+    } catch (error) {
+      alert("Failed to update user");
+      console.error(error.message);
+    }
+  });
+  document.getElementById("cancelUpdate").addEventListener("click", () => {
+    editCardDiv.style.display = "none";
+  });
+
+}
+  
+
 function subRouteLoader(subloader, subRouteName) {
   switch (subRouteName) {
     case "users":
@@ -134,18 +184,7 @@ function subRouteLoader(subloader, subRouteName) {
 }
 
 function filterUsers() {
-  const filter = document.getElementById("roleFilter").value;
-  const rows = document
-    .getElementById("userTableBody")
-    .getElementsByTagName("tr");
-  Array.from(rows).forEach((row) => {
-    const role = row.getAttribute("data-role");
-    if (filter === "" || role === filter) {
-      row.style.display = "";
-    } else {
-      row.style.display = "none";
-    }
-  });
+  
 }
 
 // Delete user: Remove the user from the data and refresh view
@@ -183,7 +222,10 @@ function setDeleteButtonElements() {
     const fullUserName = row.querySelector(".full-name-column").textContent;
     const deleteButton = row.querySelector(".delete");
     deleteButton.addEventListener("click", () =>
-      deleteUserFromDom(userId, fullUserName)
+      deleteUserFromDom(userId, fullUserName));
+     const editButton = row.querySelector(".edit");
+     editButton.addEventListener("click", () =>
+      updateUserB(userId)
     );
   });
 }
