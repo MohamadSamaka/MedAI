@@ -102,13 +102,6 @@ export const routes = [
         href: "/styles/admin_dashboard.css",
         id: "admin_dashboardStyles", // the name of the id doesn't matter, what's important is that it has to be unique
       },
-      {
-        loader: () => import("/js/views/adminView/creatingUser.js"),
-        styles: {
-          href: "/styles/ceatingUserDashboard.css",
-          id: "ceatingUserDashboard", // the name of the id doesn't matter, what's important is that it has to be unique
-        },
-      },
     ],
   },
   {
@@ -201,11 +194,12 @@ export async function initRouter() {
 }
 
 export async function renderView(route, renderContainer = "root") {
+  const isRouteAnObj = typeof route === "object"
   const userRole = getUserRole()?.toLowerCase() || null;
-  if (route.startsWith('/admin') && (userRole !== "admin" && userRole !== "doctor")) {
+  if (!isRouteAnObj && route.startsWith('/admin') && (userRole !== "admin" && userRole !== "doctor")) {
     route = !hasAccessToken() ? "/login" : "/";
   }
-  const resolvedRoute = typeof route === "object" ? route : resolveRoute(route);
+  const resolvedRoute = isRouteAnObj ? route : resolveRoute(route);
   const { loader, subloader = null, params, styles } = resolvedRoute;
 
   const { render, init } = await loader();

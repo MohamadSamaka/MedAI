@@ -4,6 +4,10 @@ body {
   font-family: Arial, sans-serif;
   background: #f5f5f5;
 }
+#dashboardContent{
+  height: 100%;
+}
+
 #topbar-dash {
   background: #34495e;
   color: #ecf0f1;
